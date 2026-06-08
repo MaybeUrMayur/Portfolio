@@ -70,34 +70,59 @@
         transform: scale(1.02);
         box-shadow: 0 18px 32px -10px rgba(0, 0, 0, 0.4);
       }
-      .profile-name {
+
+      /* --- Clean text introduction (no background, no pill) --- */
+      .profile-clear-text {
         margin-top: 1.2rem;
-        font-size: 2.2rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        background: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(8px);
-        display: inline-block;
-        padding: 0.2rem 1rem;
-        border-radius: 60px;
-        color: #000000;
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), 0 4px 12px rgba(0, 0, 0, 0.05);
+        color: white;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         font-family: Inter, sans-serif;
       }
+      .profile-clear-text .greeting {
+        font-size: 1.3rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+        /* Animation: fade in + slide up, slow 1.2 seconds */
+        animation: fadeSlideUp 1.2s ease-out forwards;
+        opacity: 0; /* fallback, but animation will override */
+        transform: translateY(20px);
+      }
+      .profile-clear-text .fullname {
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-top: 0.2rem;
+        /* Same animation, but with a 0.3s delay for a nice stagger */
+        animation: fadeSlideUp 1.2s ease-out 0.3s forwards;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      /* Keyframes for smooth slow appearance */
+      @keyframes fadeSlideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       /* responsive adjustments for profile */
       @media (max-width: 640px) {
         .profile-photo {
           width: 110px;
           height: 110px;
         }
-        .profile-name {
-          font-size: 1.8rem;
-          padding: 0.15rem 0.8rem;
+        .profile-clear-text .greeting {
+          font-size: 1rem;
         }
-        .profile-lastname {
-          font-size: 1.3rem;
-          padding: 0.15rem 0.8rem;
+        .profile-clear-text .fullname {
+          font-size: 1.6rem;
         }
       }
       @media (max-width: 480px) {
@@ -105,11 +130,11 @@
           width: 90px;
           height: 90px;
         }
-        .profile-name {
-          font-size: 1.5rem;
+        .profile-clear-text .greeting {
+          font-size: 0.9rem;
         }
-        .profile-lastname {
-          font-size: 1.1rem;
+        .profile-clear-text .fullname {
+          font-size: 1.4rem;
         }
       }
 
@@ -352,11 +377,13 @@
     </style>
   </head>
   <body>
-    <!-- NEW: PROFILE SECTION (centered, circular photo, name & last name) -->
+    <!-- PROFILE SECTION: circular photo + clean text introduction -->
     <div class="profile-section">
-      <img class="profile-photo" src="ru30ibrcuv3h1.png" alt="Profile Photo" />
-      <div class="profile-name">Mayur</div>
-      <div class="profile-name">Patil</div>
+      <img class="profile-photo" src="pfp2.jpg" alt="Profile Photo" />
+      <div class="profile-clear-text">
+        <div class="greeting">Hey! I'm</div>
+        <div class="fullname">Mayur Patil</div>
+      </div>
     </div>
 
     <!-- SOCIAL MEDIA PILL (TOP RIGHT) - only icons, with Home at start -->
