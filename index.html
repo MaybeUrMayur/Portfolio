@@ -1,557 +1,574 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,user-scalable=yes"
-    />
-    <title>Pill · Main + Social + Profile</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        background: url("ru30ibrcuv3h1.png") center/cover fixed;
-        font-family: Inter, sans-serif;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 1.5rem;
-        position: relative;
-      }
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.25);
-        pointer-events: none;
-        z-index: 0;
-      }
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Pill · Profile + Social · Animated Intro</title>
+  <!-- Google Fonts: Inter (default) + Fuzzy Bubbles (only for text below pfp) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      /* ---------- PROFILE SECTION (centered, glass style) ---------- */
-      .profile-section {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 5;
-        text-align: center;
-        width: 100%;
-        max-width: 320px;
-        padding: 1rem;
-        pointer-events: none; /* so clicks pass through to pills below */
+    body {
+      background: url("ru30ibrcuv3h1.png") center/cover fixed;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ---------- PROFILE SECTION (centered, glass style) ---------- */
+    .profile-section {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      text-align: center;
+      width: 100%;
+      max-width: 320px;
+      padding: 1rem;
+      pointer-events: none; /* clicks go through to pills */
+    }
+
+    /* PROFILE PHOTO - animated first (fade + gentle scale) */
+    .profile-photo {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.3);
+      border: 3px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      /* initial hidden, then fade-in appears FIRST (0s delay) */
+      opacity: 0;
+      animation: pfpReveal 0.55s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    }
+
+    @keyframes pfpReveal {
+      0% {
+        opacity: 0;
+        transform: scale(0.92);
       }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.02);
+      box-shadow: 0 18px 32px -10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --- Text below pfp: Fuzzy Bubbles font, staggered animation --- */
+    .profile-clear-text {
+      margin-top: 1.2rem;
+      color: white;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Greeting text: "hey i am" — Fuzzy Bubbles, appears after 0.3s */
+    .profile-clear-text .greeting {
+      font-family: 'Fuzzy Bubbles', cursive;
+      font-weight: 700;
+      font-size: 1.55rem;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: textSlideUp 0.55s ease-out 0.3s forwards;
+    }
+
+    /* Fullname: "Mayur Sanjay Patil" — Fuzzy Bubbles, appears after 0.6s (0.3s after greeting) */
+    .profile-clear-text .fullname {
+      font-family: 'Fuzzy Bubbles', cursive;
+      font-weight: 700;
+      font-size: 2.3rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-top: 0.25rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: textSlideUp 0.55s ease-out 0.7s forwards;
+    }
+
+    /* unified slide-up keyframe for greeting + name */
+    @keyframes textSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* responsive adjustments for profile text and image */
+    @media (max-width: 640px) {
       .profile-photo {
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-        object-fit: cover;
-        box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.3);
-        border: 3px solid rgba(255, 255, 255, 0.6);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(4px);
-      }
-      /* subtle hover effect (optional, matches pill hover style) */
-      .profile-photo:hover {
-        transform: scale(1.02);
-        box-shadow: 0 18px 32px -10px rgba(0, 0, 0, 0.4);
-      }
-
-      /* --- Clean text introduction (no background, no pill) --- */
-      .profile-clear-text {
-        margin-top: 1.2rem;
-        color: white;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        font-family: Inter, sans-serif;
+        width: 110px;
+        height: 110px;
       }
       .profile-clear-text .greeting {
-        font-size: 1.3rem;
-        font-weight: 500;
-        letter-spacing: -0.01em;
-        line-height: 1.3;
-        /* Animation: fade in + slide up, slow 1.2 seconds */
-        animation: fadeSlideUp 1.2s ease-out forwards;
-        opacity: 0; /* fallback, but animation will override */
-        transform: translateY(20px);
+        font-size: 1.25rem;
       }
       .profile-clear-text .fullname {
-        font-size: 2.2rem;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
-        margin-top: 0.2rem;
-        /* Same animation, but with a 0.3s delay for a nice stagger */
-        animation: fadeSlideUp 1.2s ease-out 0.3s forwards;
-        opacity: 0;
-        transform: translateY(20px);
+        font-size: 1.7rem;
       }
+    }
+    @media (max-width: 480px) {
+      .profile-photo {
+        width: 90px;
+        height: 90px;
+      }
+      .profile-clear-text .greeting {
+        font-size: 1.1rem;
+      }
+      .profile-clear-text .fullname {
+        font-size: 1.45rem;
+      }
+    }
 
-      /* Keyframes for smooth slow appearance */
-      @keyframes fadeSlideUp {
-        0% {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    /* ---------- SOCIAL MEDIA PILL (TOP RIGHT) ---------- */
+    .social-pill-nav {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(2px);
+      border-radius: 120px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2),
+                  0 1px 2px rgba(0, 0, 0, 0.05),
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      display: inline-flex;
+      max-width: calc(100% - 3rem);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    .social-pill-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+    .social-pill-nav::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+    }
+    .social-pill-nav::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+    .social-pill-group {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+      padding: 0.6rem 1.4rem;
+      list-style: none;
+      margin: 0;
+    }
+    .social-pill-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(0.8rem, 4vw, 1rem);
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      border-radius: 100px;
+      text-decoration: none;
+      background: transparent;
+      color: #1e293b;
+      padding: 0.5rem 1.15rem;
+      position: relative;
+      z-index: 3;
+      gap: 6px;
+    }
+    .social-pill-item i {
+      font-size: 1.2rem;
+      width: 1.2rem;
+      text-align: center;
+    }
+    .social-pill-item:hover {
+      color: #0f172a;
+    }
+    .social-pill-item.active-text {
+      color: #fff !important;
+      font-weight: 520;
+    }
+    .social-pill-item:active {
+      transform: scale(0.97);
+      transition: transform 0.06s;
+    }
+    .social-sliding-pill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #000000;
+      border-radius: 100px;
+      box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
+      z-index: 1;
+      transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1),
+                  width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
+      pointer-events: none;
+    }
+    .social-pill-item:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+      border-radius: 100px;
+      color: #000;
+      background: #00000033;
+    }
 
-      /* responsive adjustments for profile */
-      @media (max-width: 640px) {
-        .profile-photo {
-          width: 110px;
-          height: 110px;
-        }
-        .profile-clear-text .greeting {
-          font-size: 1rem;
-        }
-        .profile-clear-text .fullname {
-          font-size: 1.6rem;
-        }
+    /* ---------- MAIN PILL (BOTTOM CENTER) - UNMODIFIED KEEP INTER ---------- */
+    .pill-nav {
+      position: relative;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(2px);
+      border-radius: 120px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2),
+                  0 1px 2px rgba(0, 0, 0, 0.05),
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      display: inline-flex;
+      max-width: 100%;
+      z-index: 10;
+      margin-bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
+      transition: box-shadow 0.3s;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+    .pill-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+    .pill-nav::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+    }
+    .pill-nav::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+    .pill-nav:hover {
+      box-shadow: 0 24px 42px -14px rgba(2, 47, 81, 0.396);
+    }
+    .pill-group {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+      padding: 0.6rem 1.4rem;
+      list-style: none;
+      margin: 0;
+    }
+    .nav-item {
+      display: inline-flex;
+      align-items: center;
+      font-size: clamp(0.8rem, 4vw, 1rem);
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      border-radius: 100px;
+      text-decoration: none;
+      background: 0 0;
+      color: #1e293b;
+      padding: 0.5rem 1.15rem;
+      transition: color 0.2s, transform 0.15s;
+      position: relative;
+      z-index: 3;
+    }
+    .nav-item.brand {
+      font-weight: 650;
+      color: #000000;
+      cursor: default;
+      padding: 0.5rem 0.9rem 0.5rem 0.4rem;
+      font-size: clamp(0.85rem, 4vw, 1.05rem);
+      pointer-events: none;
+    }
+    .interactive-pill:hover {
+      color: #1b1919;
+    }
+    .interactive-pill.active-text {
+      color: #fff !important;
+      font-weight: 520;
+    }
+    .interactive-pill:active {
+      transform: scale(0.97);
+      transition: transform 0.06s;
+    }
+    .sliding-pill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #000000;
+      border-radius: 100px;
+      box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
+      z-index: 1;
+      transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1),
+                  width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
+      pointer-events: none;
+    }
+    .interactive-pill:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+      border-radius: 100px;
+      color: #000;
+      background: #00000033;
+    }
+    @media (max-width: 640px) {
+      .pill-group, .social-pill-group {
+        padding: 0.5rem 1.1rem;
+        gap: 0.15rem;
       }
-      @media (max-width: 480px) {
-        .profile-photo {
-          width: 90px;
-          height: 90px;
-        }
-        .profile-clear-text .greeting {
-          font-size: 0.9rem;
-        }
-        .profile-clear-text .fullname {
-          font-size: 1.4rem;
-        }
-      }
-
-      /* ---------- SOCIAL MEDIA PILL (TOP RIGHT) ---------- */
-      .social-pill-nav {
-        position: fixed;
-        top: 1.5rem;
-        right: 1.5rem;
-        z-index: 20;
-        background: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(2px);
-        border-radius: 120px;
-        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2),
-                    0 1px 2px rgba(0, 0, 0, 0.05),
-                    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-        display: inline-flex;
-        max-width: calc(100% - 3rem);
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: thin;
-        -webkit-overflow-scrolling: touch;
-      }
-      .social-pill-nav::-webkit-scrollbar {
-        height: 4px;
-      }
-      .social-pill-nav::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 10px;
-      }
-      .social-pill-nav::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-      }
-      .social-pill-group {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 0.25rem;
-        padding: 0.6rem 1.4rem;
-        list-style: none;
-        margin: 0;
-      }
-      .social-pill-item {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: clamp(0.8rem, 4vw, 1rem);
-        font-weight: 500;
-        white-space: nowrap;
-        cursor: pointer;
-        border-radius: 100px;
-        text-decoration: none;
-        background: transparent;
-        color: #1e293b;
-        padding: 0.5rem 1.15rem;
-        position: relative;
-        z-index: 3;
-        gap: 6px;
-      }
-      .social-pill-item i {
-        font-size: 1.2rem;
-        width: 1.2rem;
-        text-align: center;
-      }
-      .social-pill-item:hover {
-        color: #0f172a;
-      }
-      .social-pill-item.active-text {
-        color: #fff !important;
-        font-weight: 520;
-      }
-      .social-pill-item:active {
-        transform: scale(0.97);
-        transition: transform 0.06s;
-      }
-      .social-sliding-pill {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: #000000;
-        border-radius: 100px;
-        box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
-        z-index: 1;
-        transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1),
-                    width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
-        pointer-events: none;
-      }
-      .social-pill-item:focus-visible {
-        outline: 2px solid #fff;
-        outline-offset: 3px;
-        border-radius: 100px;
-        color: #000;
-        background: #00000033;
-      }
-
-      /* ---------- MAIN PILL (BOTTOM CENTER) - UNCHANGED ---------- */
-      .pill-nav {
-        position: relative;
-        background: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(2px);
-        border-radius: 120px;
-        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2),
-                    0 1px 2px rgba(0, 0, 0, 0.05),
-                    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-        display: inline-flex;
-        max-width: 100%;
-        z-index: 10;
-        margin-bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
-        transition: box-shadow 0.3s;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: thin;
-        -webkit-overflow-scrolling: touch;
-      }
-      .pill-nav::-webkit-scrollbar {
-        height: 4px;
-      }
-      .pill-nav::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 10px;
-      }
-      .pill-nav::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-      }
-      .pill-nav:hover {
-        box-shadow: 0 24px 42px -14px rgba(2, 47, 81, 0.396);
-      }
-      .pill-group {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 0.25rem;
-        padding: 0.6rem 1.4rem;
-        list-style: none;
-        margin: 0;
-      }
-      .nav-item {
-        display: inline-flex;
-        align-items: center;
-        font-size: clamp(0.8rem, 4vw, 1rem);
-        font-weight: 500;
-        white-space: nowrap;
-        cursor: pointer;
-        border-radius: 100px;
-        text-decoration: none;
-        background: 0 0;
-        color: #1e293b;
-        padding: 0.5rem 1.15rem;
-        transition: color 0.2s, transform 0.15s;
-        position: relative;
-        z-index: 3;
+      .nav-item, .social-pill-item {
+        padding: 0.4rem 0.9rem;
       }
       .nav-item.brand {
-        font-weight: 650;
-        color: #000000;
-        cursor: default;
-        padding: 0.5rem 0.9rem 0.5rem 0.4rem;
-        font-size: clamp(0.85rem, 4vw, 1.05rem);
-        pointer-events: none;
+        padding: 0.4rem 0.7rem 0.4rem 0.3rem;
       }
-      .interactive-pill:hover {
-        color: #1b1919;
+      body {
+        padding: 0.75rem;
       }
-      .interactive-pill.active-text {
-        color: #fff !important;
-        font-weight: 520;
+      .pill-nav {
+        margin-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
       }
-      .interactive-pill:active {
-        transform: scale(0.97);
-        transition: transform 0.06s;
+      .social-pill-nav {
+        top: 0.75rem;
+        right: 0.75rem;
+        max-width: calc(100% - 1.5rem);
       }
-      .sliding-pill {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: #000000;
-        border-radius: 100px;
-        box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
-        z-index: 1;
-        transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1),
-                    width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
-        pointer-events: none;
+    }
+    @media (max-width: 480px) {
+      .pill-group, .social-pill-group {
+        padding: 0.45rem 0.9rem;
+        gap: 0.1rem;
       }
-      .interactive-pill:focus-visible {
-        outline: 2px solid #fff;
-        outline-offset: 3px;
-        border-radius: 100px;
-        color: #000;
-        background: #00000033;
+      .nav-item, .social-pill-item {
+        padding: 0.35rem 0.8rem;
       }
-      /* responsive spacing for both pills */
-      @media (max-width: 640px) {
-        .pill-group, .social-pill-group {
-          padding: 0.5rem 1.1rem;
-          gap: 0.15rem;
-        }
-        .nav-item, .social-pill-item {
-          padding: 0.4rem 0.9rem;
-        }
-        .nav-item.brand {
-          padding: 0.4rem 0.7rem 0.4rem 0.3rem;
-        }
-        body {
-          padding: 0.75rem;
-        }
-        .pill-nav {
-          margin-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
-        }
-        .social-pill-nav {
-          top: 0.75rem;
-          right: 0.75rem;
-          max-width: calc(100% - 1.5rem);
-        }
+    }
+    .pill-nav, .social-pill-nav {
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(8px);
       }
-      @media (max-width: 480px) {
-        .pill-group, .social-pill-group {
-          padding: 0.45rem 0.9rem;
-          gap: 0.1rem;
-        }
-        .nav-item, .social-pill-item {
-          padding: 0.35rem 0.8rem;
-        }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
       }
-      .pill-nav, .social-pill-nav {
-        animation: fadeIn 0.5s ease-out;
-      }
-      @keyframes fadeIn {
-        0% {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- PROFILE SECTION: circular photo + clean text introduction -->
-    <div class="profile-section">
-      <img class="profile-photo" src="pfp2.jpg" alt="Profile Photo" />
-      <div class="profile-clear-text">
-        <div class="greeting">Hey! I'm</div>
-        <div class="fullname">Mayur Patil</div>
-      </div>
-    </div>
+    }
+  </style>
+</head>
+<body>
 
-    <!-- SOCIAL MEDIA PILL (TOP RIGHT) - only icons, with Home at start -->
-    <div class="social-pill-nav" id="socialPillNav">
-      <div class="social-sliding-pill" id="socialSlidingPill"></div>
-      <ul class="social-pill-group">
-        <li><a href="#" class="social-pill-item" data-social="home"><i class="fas fa-home"></i></a></li>
-        <li><a href="#" class="social-pill-item" data-social="github"><i class="fab fa-github"></i></a></li>
-        <li><a href="#" class="social-pill-item" data-social="linkedin"><i class="fab fa-linkedin"></i></a></li>
-        <li><a href="#" class="social-pill-item" data-social="twitter"><i class="fab fa-twitter"></i></a></li>
-        <li><a href="#" class="social-pill-item" data-social="reddit"><i class="fab fa-reddit-alien"></i></a></li>
-        <li><a href="#" class="social-pill-item" data-social="instagram"><i class="fab fa-instagram"></i></a></li>
-      </ul>
+  <!-- PROFILE SECTION: photo + animated text (Fuzzy Bubbles + staggered timing) -->
+  <div class="profile-section">
+    <!-- Profile picture: appears first with fade-in (0s delay) -->
+    <img class="profile-photo" src="pfp2.jpg" alt="Profile Photo">
+    <div class="profile-clear-text">
+      <!-- Greeting text changed to 'hey i am', will appear after 0.3 sec -->
+      <div class="greeting">hey i am</div>
+      <!-- Full name updated to 'Mayur Sanjay Patil', appears after 0.6 sec (0.3 after greeting) -->
+      <div class="fullname">Mayur Sanjay Patil</div>
     </div>
+  </div>
 
-    <!-- MAIN PILL (BOTTOM CENTER) - ORIGINAL, UNMODIFIED -->
-    <div class="pill-nav" id="P">
-      <div class="sliding-pill" id="S"></div>
-      <ul class="pill-group">
-        <li><a href="#" class="nav-item interactive-pill" data-key="work">Mayur Patil</a></li>
-        <li><a href="#" class="nav-item interactive-pill" data-key="about">About</a></li>
-        <li><a href="#" class="nav-item interactive-pill" data-key="projects">Projects</a></li>
-        <li><a href="#" class="nav-item interactive-pill" data-key="connect">Let's Connect</a></li>
-      </ul>
-    </div>
+  <!-- SOCIAL MEDIA PILL (TOP RIGHT) - icons + home sliding pill -->
+  <div class="social-pill-nav" id="socialPillNav">
+    <div class="social-sliding-pill" id="socialSlidingPill"></div>
+    <ul class="social-pill-group">
+      <li><a href="#" class="social-pill-item" data-social="home"><i class="fas fa-home"></i></a></li>
+      <li><a href="#" class="social-pill-item" data-social="github"><i class="fab fa-github"></i></a></li>
+      <li><a href="#" class="social-pill-item" data-social="linkedin"><i class="fab fa-linkedin"></i></a></li>
+      <li><a href="#" class="social-pill-item" data-social="twitter"><i class="fab fa-twitter"></i></a></li>
+      <li><a href="#" class="social-pill-item" data-social="reddit"><i class="fab fa-reddit-alien"></i></a></li>
+      <li><a href="#" class="social-pill-item" data-social="instagram"><i class="fab fa-instagram"></i></a></li>
+    </ul>
+  </div>
 
-    <script>
-      // ---------- MAIN PILL LOGIC (UNCHANGED) ----------
-      (function () {
-        let P = document.getElementById("P"),
-          S = document.getElementById("S"),
-          btns = document.querySelectorAll("#P .interactive-pill");
-        function rect(e) {
-          let r = P.getBoundingClientRect(),
-            b = e.getBoundingClientRect();
-          return {
-            left: b.left - r.left,
-            top: b.top - r.top,
-            width: b.width,
-            height: b.height,
-          };
-        }
-        function move(t) {
-          if (!t) return;
-          let r = rect(t);
+  <!-- MAIN PILL (BOTTOM CENTER) - preserved, uses Inter font -->
+  <div class="pill-nav" id="P">
+    <div class="sliding-pill" id="S"></div>
+    <ul class="pill-group">
+      <li><a href="#" class="nav-item interactive-pill" data-key="work">Mayur Patil</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-key="about">About</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-key="projects">Projects</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-key="connect">Let's Connect</a></li>
+    </ul>
+  </div>
+
+  <script>
+    // ---------- MAIN PILL LOGIC (unchanged, ensures smooth sliding) ----------
+    (function () {
+      let P = document.getElementById("P"),
+        S = document.getElementById("S"),
+        btns = document.querySelectorAll("#P .interactive-pill");
+      function rect(e) {
+        let r = P.getBoundingClientRect(),
+          b = e.getBoundingClientRect();
+        return {
+          left: b.left - r.left,
+          top: b.top - r.top,
+          width: b.width,
+          height: b.height,
+        };
+      }
+      function move(t) {
+        if (!t) return;
+        let r = rect(t);
+        S.style.width = r.width + "px";
+        S.style.height = r.height + "px";
+        S.style.transform = `translate(${r.left}px,${r.top}px)`;
+        btns.forEach((b) => b.classList.remove("active-text"));
+        t.classList.add("active-text");
+        btns.forEach((b) => b.removeAttribute("aria-current"));
+        t.setAttribute("aria-current", "page");
+      }
+      let active = null;
+      function upd() {
+        if (active) {
+          let r = rect(active);
           S.style.width = r.width + "px";
           S.style.height = r.height + "px";
           S.style.transform = `translate(${r.left}px,${r.top}px)`;
-          btns.forEach((b) => b.classList.remove("active-text"));
-          t.classList.add("active-text");
-          btns.forEach((b) => b.removeAttribute("aria-current"));
-          t.setAttribute("aria-current", "page");
         }
-        let active = null;
-        function upd() {
-          if (active) {
-            let r = rect(active);
-            S.style.width = r.width + "px";
-            S.style.height = r.height + "px";
-            S.style.transform = `translate(${r.left}px,${r.top}px)`;
-          }
-        }
-        btns.forEach((b) => {
-          b.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (b === active) return;
-            active = b;
-            move(b);
-            b.focus({ preventScroll: false });
-            b.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-          });
+      }
+      btns.forEach((b) => {
+        b.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (b === active) return;
+          active = b;
+          move(b);
+          b.focus({ preventScroll: false });
+          b.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
         });
-        let mayurPatil = [...btns].find((b) => b.innerText.trim() === "Mayur Patil");
-        if (mayurPatil) {
-          active = mayurPatil;
-          S.style.transition = "none";
-          move(mayurPatil);
-          void S.offsetHeight;
-          S.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-          setTimeout(() => {
-            mayurPatil.focus();
-            mayurPatil.scrollIntoView({ behavior: "auto", block: "nearest", inline: "center" });
-          }, 80);
-        } else if (btns[0]) {
-          active = btns[0];
-          S.style.transition = "none";
-          move(btns[0]);
-          void S.offsetHeight;
-          S.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-          setTimeout(() => btns[0].focus(), 80);
-        }
-        let t;
-        window.addEventListener("resize", () => {
-          clearTimeout(t);
-          t = setTimeout(upd, 100);
+      });
+      let defaultBtn = [...btns].find((b) => b.innerText.trim() === "Mayur Patil");
+      if (defaultBtn) {
+        active = defaultBtn;
+        S.style.transition = "none";
+        move(defaultBtn);
+        void S.offsetHeight;
+        S.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
+        setTimeout(() => {
+          defaultBtn.focus();
+          defaultBtn.scrollIntoView({ behavior: "auto", block: "nearest", inline: "center" });
+        }, 80);
+      } else if (btns[0]) {
+        active = btns[0];
+        S.style.transition = "none";
+        move(btns[0]);
+        void S.offsetHeight;
+        S.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
+        setTimeout(() => btns[0].focus(), 80);
+      }
+      let t;
+      window.addEventListener("resize", () => {
+        clearTimeout(t);
+        t = setTimeout(upd, 100);
+      });
+      if (window.ResizeObserver) {
+        new ResizeObserver(upd).observe(P);
+      }
+    })();
+
+    // ---------- SOCIAL MEDIA PILL LOGIC (click moves pill, stays functional) ----------
+    (function () {
+      const socialContainer = document.getElementById("socialPillNav");
+      const slidingPill = document.getElementById("socialSlidingPill");
+      const socialBtns = document.querySelectorAll("#socialPillNav .social-pill-item");
+
+      function getRelativeRect(element) {
+        const containerRect = socialContainer.getBoundingClientRect();
+        const elemRect = element.getBoundingClientRect();
+        return {
+          left: elemRect.left - containerRect.left,
+          top: elemRect.top - containerRect.top,
+          width: elemRect.width,
+          height: elemRect.height,
+        };
+      }
+
+      function movePillTo(target) {
+        if (!target) return;
+        const r = getRelativeRect(target);
+        slidingPill.style.width = r.width + "px";
+        slidingPill.style.height = r.height + "px";
+        slidingPill.style.transform = `translate(${r.left}px, ${r.top}px)`;
+        socialBtns.forEach(btn => btn.classList.remove("active-text"));
+        target.classList.add("active-text");
+      }
+
+      let currentActive = null;
+      socialBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (btn === currentActive) return;
+          currentActive = btn;
+          movePillTo(btn);
+          btn.focus({ preventScroll: false });
+          btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
         });
-        if (window.ResizeObserver) {
-          new ResizeObserver(upd).observe(P);
-        }
-      })();
+      });
 
-      // ---------- SOCIAL MEDIA PILL (CLICK TO MOVE, NO HOVER) ----------
-      (function () {
-        const socialContainer = document.getElementById("socialPillNav");
-        const slidingPill = document.getElementById("socialSlidingPill");
-        const socialBtns = document.querySelectorAll("#socialPillNav .social-pill-item");
+      if (socialBtns.length > 0) {
+        currentActive = socialBtns[0];
+        slidingPill.style.transition = "none";
+        movePillTo(socialBtns[0]);
+        void slidingPill.offsetHeight;
+        slidingPill.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
+        setTimeout(() => socialBtns[0].focus(), 80);
+      }
 
-        function getRelativeRect(element) {
-          const containerRect = socialContainer.getBoundingClientRect();
-          const elemRect = element.getBoundingClientRect();
-          return {
-            left: elemRect.left - containerRect.left,
-            top: elemRect.top - containerRect.top,
-            width: elemRect.width,
-            height: elemRect.height,
-          };
-        }
-
-        function movePillTo(target) {
-          if (!target) return;
-          const r = getRelativeRect(target);
+      function updateSocialPill() {
+        if (currentActive) {
+          const r = getRelativeRect(currentActive);
           slidingPill.style.width = r.width + "px";
           slidingPill.style.height = r.height + "px";
           slidingPill.style.transform = `translate(${r.left}px, ${r.top}px)`;
-          socialBtns.forEach(btn => btn.classList.remove("active-text"));
-          target.classList.add("active-text");
         }
+      }
 
-        let currentActive = null;
-
-        socialBtns.forEach(btn => {
-          btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (btn === currentActive) return;
-            currentActive = btn;
-            movePillTo(btn);
-            btn.focus({ preventScroll: false });
-            btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-          });
-        });
-
-        if (socialBtns.length > 0) {
-          currentActive = socialBtns[0];
-          slidingPill.style.transition = "none";
-          movePillTo(socialBtns[0]);
-          void slidingPill.offsetHeight;
-          slidingPill.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-          setTimeout(() => socialBtns[0].focus(), 80);
-        }
-
-        function updateSocialPill() {
-          if (currentActive) {
-            const r = getRelativeRect(currentActive);
-            slidingPill.style.width = r.width + "px";
-            slidingPill.style.height = r.height + "px";
-            slidingPill.style.transform = `translate(${r.left}px, ${r.top}px)`;
-          }
-        }
-
-        let resizeTimer;
-        window.addEventListener("resize", () => {
-          clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(updateSocialPill, 100);
-        });
-        if (window.ResizeObserver) {
-          new ResizeObserver(updateSocialPill).observe(socialContainer);
-        }
-      })();
-    </script>
-  </body>
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(updateSocialPill, 100);
+      });
+      if (window.ResizeObserver) {
+        new ResizeObserver(updateSocialPill).observe(socialContainer);
+      }
+    })();
+  </script>
+</body>
 </html>
