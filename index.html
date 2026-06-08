@@ -6,9 +6,9 @@
       name="viewport"
       content="width=device-width,initial-scale=1,user-scalable=yes"
     />
-    <title>Pill · Main + Social Media (Click to Focus)</title>
+    <title>Pill · Main + Social + Profile</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -39,6 +39,78 @@
         background: rgba(0, 0, 0, 0.25);
         pointer-events: none;
         z-index: 0;
+      }
+
+      /* ---------- PROFILE SECTION (centered, glass style) ---------- */
+      .profile-section {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        text-align: center;
+        width: 100%;
+        max-width: 320px;
+        padding: 1rem;
+        pointer-events: none; /* so clicks pass through to pills below */
+      }
+      .profile-photo {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.3);
+        border: 3px solid rgba(255, 255, 255, 0.6);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+      }
+      /* subtle hover effect (optional, matches pill hover style) */
+      .profile-photo:hover {
+        transform: scale(1.02);
+        box-shadow: 0 18px 32px -10px rgba(0, 0, 0, 0.4);
+      }
+      .profile-name {
+        margin-top: 1.2rem;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(8px);
+        display: inline-block;
+        padding: 0.2rem 1rem;
+        border-radius: 60px;
+        color: #000000;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), 0 4px 12px rgba(0, 0, 0, 0.05);
+        font-family: Inter, sans-serif;
+      }
+      /* responsive adjustments for profile */
+      @media (max-width: 640px) {
+        .profile-photo {
+          width: 110px;
+          height: 110px;
+        }
+        .profile-name {
+          font-size: 1.8rem;
+          padding: 0.15rem 0.8rem;
+        }
+        .profile-lastname {
+          font-size: 1.3rem;
+          padding: 0.15rem 0.8rem;
+        }
+      }
+      @media (max-width: 480px) {
+        .profile-photo {
+          width: 90px;
+          height: 90px;
+        }
+        .profile-name {
+          font-size: 1.5rem;
+        }
+        .profile-lastname {
+          font-size: 1.1rem;
+        }
       }
 
       /* ---------- SOCIAL MEDIA PILL (TOP RIGHT) ---------- */
@@ -94,12 +166,10 @@
         background: transparent;
         color: #1e293b;
         padding: 0.5rem 1.15rem;
-        transition: color 0.2s, transform 0.15s;
         position: relative;
         z-index: 3;
         gap: 6px;
       }
-      /* icon styling */
       .social-pill-item i {
         font-size: 1.2rem;
         width: 1.2rem;
@@ -107,7 +177,6 @@
       }
       .social-pill-item:hover {
         color: #0f172a;
-        transform: translateY(-1px);
       }
       .social-pill-item.active-text {
         color: #fff !important;
@@ -283,6 +352,13 @@
     </style>
   </head>
   <body>
+    <!-- NEW: PROFILE SECTION (centered, circular photo, name & last name) -->
+    <div class="profile-section">
+      <img class="profile-photo" src="ru30ibrcuv3h1.png" alt="Profile Photo" />
+      <div class="profile-name">Mayur</div>
+      <div class="profile-name">Patil</div>
+    </div>
+
     <!-- SOCIAL MEDIA PILL (TOP RIGHT) - only icons, with Home at start -->
     <div class="social-pill-nav" id="socialPillNav">
       <div class="social-sliding-pill" id="socialSlidingPill"></div>
@@ -301,8 +377,8 @@
       <div class="sliding-pill" id="S"></div>
       <ul class="pill-group">
         <li><a href="#" class="nav-item interactive-pill" data-key="work">Mayur Patil</a></li>
-        <li><a href="#" class="nav-item interactive-pill" data-key="work">Work</a></li>
         <li><a href="#" class="nav-item interactive-pill" data-key="about">About</a></li>
+        <li><a href="#" class="nav-item interactive-pill" data-key="projects">Projects</a></li>
         <li><a href="#" class="nav-item interactive-pill" data-key="connect">Let's Connect</a></li>
       </ul>
     </div>
@@ -411,7 +487,6 @@
 
         let currentActive = null;
 
-        // Click handler: move black pill and set focus
         socialBtns.forEach(btn => {
           btn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -419,23 +494,19 @@
             currentActive = btn;
             movePillTo(btn);
             btn.focus({ preventScroll: false });
-            // auto-scroll horizontally to keep in view
             btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
           });
         });
 
-        // Set initial active pill to Home (first button)
         if (socialBtns.length > 0) {
           currentActive = socialBtns[0];
           slidingPill.style.transition = "none";
           movePillTo(socialBtns[0]);
           void slidingPill.offsetHeight;
           slidingPill.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-          // Optionally focus on home initially
           setTimeout(() => socialBtns[0].focus(), 80);
         }
 
-        // Reposition on resize
         function updateSocialPill() {
           if (currentActive) {
             const r = getRelativeRect(currentActive);
