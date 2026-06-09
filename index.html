@@ -1,13 +1,13 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Pill · Profile + Social · Animated Intro</title>
-  <!-- Google Fonts: Inter (default) + Fuzzy Bubbles (only for text below pfp) -->
+  <title>Pill · Unified Glass · Smooth Cards</title>
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (icons) -->
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -20,12 +20,7 @@
       background: url("ru30ibrcuv3h1.png") center/cover fixed;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 1.5rem;
-      position: relative;
+      overflow-x: hidden;
     }
 
     body::before {
@@ -37,21 +32,43 @@
       z-index: 0;
     }
 
-    /* ---------- PROFILE SECTION (centered, glass style) ---------- */
+    /* ---------- PROFILE SECTION (smooth transition) ---------- */
     .profile-section {
       position: fixed;
+      z-index: 50;
+      text-align: center;
+      width: auto;
+      max-width: 340px;
+      padding: 0;
+      pointer-events: none;
+      transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform, top, left, width, background, padding;
+      backface-visibility: hidden;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 5;
-      text-align: center;
-      width: 100%;
-      max-width: 320px;
-      padding: 1rem;
-      pointer-events: none; /* clicks go through to pills */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* PROFILE PHOTO - animated first (fade + gentle scale) */
+    .profile-section.compact {
+      top: 1.2rem;
+      left: 1.2rem;
+      transform: none;
+      flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+      max-width: 85vw;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(2px);
+      border-radius: 120px;
+      padding: 0.5rem 1.2rem 0.5rem 0.8rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+    }
+
     .profile-photo {
       width: 300px;
       height: 300px;
@@ -59,50 +76,52 @@
       object-fit: cover;
       box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.3);
       border: 3px solid rgba(255, 255, 255, 0.6);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(4px);
-      /* initial hidden, then fade-in appears FIRST (0s delay) */
-      opacity: 0;
-      animation: pfpReveal 0.55s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
     }
 
-    @keyframes pfpReveal {
-      0% {
-        opacity: 0;
-        transform: scale(0.92);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
+    .profile-section.compact .profile-photo {
+      width: 56px;
+      height: 56px;
+      border-width: 2px;
+      box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.2);
     }
 
     .profile-photo:hover {
       transform: scale(1.02);
-      box-shadow: 0 18px 32px -10px rgba(0, 0, 0, 0.4);
+    }
+    .profile-section.compact .profile-photo:hover {
+      transform: scale(1.05);
     }
 
-    /* --- Text below pfp: Fuzzy Bubbles font, staggered animation --- */
     .profile-clear-text {
       margin-top: 1.2rem;
       color: white;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+      transition: all 0.6s ease;
+      text-align: center;
     }
 
-    /* Greeting text: "hey i am" — Fuzzy Bubbles, appears after 0.3s */
+    .profile-section.compact .profile-clear-text {
+      margin-top: 0;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.1rem;
+      color: #1e293b;
+      text-shadow: none;
+    }
+
     .profile-clear-text .greeting {
       font-family: 'Fuzzy Bubbles', cursive;
       font-weight: 700;
       font-size: 1.55rem;
-      letter-spacing: -0.01em;
       line-height: 1.3;
-      opacity: 0;
-      transform: translateY(20px);
       animation: textSlideUp 0.55s ease-out 0.3s forwards;
     }
 
-    /* Fullname: "Mayur Sanjay Patil" — Fuzzy Bubbles, appears after 0.6s (0.3s after greeting) */
     .profile-clear-text .fullname {
       font-family: 'Fuzzy Bubbles', cursive;
       font-weight: 700;
@@ -110,89 +129,137 @@
       letter-spacing: -0.02em;
       line-height: 1.2;
       margin-top: 0.25rem;
-      opacity: 0;
-      transform: translateY(30px);
       animation: textSlideUp 0.55s ease-out 0.7s forwards;
     }
 
-    /* unified slide-up keyframe for greeting + name */
-    @keyframes textSlideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(22px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .profile-section.compact .greeting {
+      font-size: 0.85rem;
+      line-height: 1.2;
+      animation: none;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .profile-section.compact .fullname {
+      font-size: 1.2rem;
+      margin-top: 0;
+      line-height: 1.3;
+      animation: none;
+      font-weight: 700;
+      color: #0f172a;
     }
 
-    /* responsive adjustments for profile text and image */
+    @keyframes textSlideUp {
+      0% { opacity: 0; transform: translateY(22px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 640px) {
-      .profile-photo {
-        width: 110px;
-        height: 110px;
-      }
-      .profile-clear-text .greeting {
-        font-size: 1.25rem;
-      }
-      .profile-clear-text .fullname {
-        font-size: 1.7rem;
-      }
+      .profile-photo { width: 110px; height: 110px; }
+      .profile-clear-text .greeting { font-size: 1.25rem; }
+      .profile-clear-text .fullname { font-size: 1.7rem; }
+      .profile-section.compact .profile-photo { width: 48px; height: 48px; }
+      .profile-section.compact .fullname { font-size: 1rem; }
+      .profile-section.compact .greeting { font-size: 0.75rem; }
+      .profile-section.compact { padding: 0.4rem 1rem 0.4rem 0.6rem; gap: 0.7rem; }
     }
     @media (max-width: 480px) {
-      .profile-photo {
-        width: 90px;
-        height: 90px;
-      }
-      .profile-clear-text .greeting {
-        font-size: 1.1rem;
-      }
-      .profile-clear-text .fullname {
-        font-size: 1.45rem;
-      }
+      .profile-photo { width: 90px; height: 90px; }
+      .profile-clear-text .greeting { font-size: 1.1rem; }
+      .profile-clear-text .fullname { font-size: 1.45rem; }
+      .profile-section.compact .fullname { font-size: 0.9rem; }
+      .profile-section.compact .greeting { font-size: 0.7rem; }
+      .profile-section.compact .profile-photo { width: 42px; height: 42px; }
     }
 
-    /* ---------- SOCIAL MEDIA PILL (TOP RIGHT) ---------- */
+    /* ========== SOCIAL MEDIA PILL - WITHOUT BLACK SLIDING INDICATOR ========== */
     .social-pill-nav {
       position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 20;
+      top: 1.2rem;
+      right: 1.2rem;
+      z-index: 100;
       background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(2px);
       border-radius: 120px;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2),
-                  0 1px 2px rgba(0, 0, 0, 0.05),
-                  inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      overflow: visible;
+      transition: border-radius 0.3s ease, padding 0.3s ease;
+    }
+
+    .social-pill-inner {
       display: inline-flex;
-      max-width: calc(100% - 3rem);
-      overflow-x: auto;
-      overflow-y: hidden;
-      scrollbar-width: thin;
-      -webkit-overflow-scrolling: touch;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
     }
-    .social-pill-nav::-webkit-scrollbar {
-      height: 4px;
-    }
-    .social-pill-nav::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 10px;
-    }
-    .social-pill-nav::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-    }
+
     .social-pill-group {
-      position: relative;
-      z-index: 2;
       display: flex;
       flex-wrap: nowrap;
       gap: 0.25rem;
-      padding: 0.6rem 1.4rem;
+      padding: 0.6rem 1.6rem;
       list-style: none;
       margin: 0;
+      transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.4, 1), transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1), visibility 0.35s;
+      transform-origin: right center;
     }
+
+    .social-collapsed-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #1e293b;
+      white-space: nowrap;
+      padding: 0.5rem 1.2rem;
+      transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.4, 1), transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1), visibility 0.35s;
+      transform-origin: right center;
+    }
+
+    /* Expanded state */
+    .social-pill-nav:not(.collapsed) .social-pill-group {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+    .social-pill-nav:not(.collapsed) .social-collapsed-toggle {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+
+    /* Collapsed state */
+    .social-pill-nav.collapsed .social-pill-group {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+    .social-pill-nav.collapsed .social-collapsed-toggle {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    /* Hover on collapsed expands */
+    .social-pill-nav.collapsed:not(.force-expanded):hover .social-pill-group {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+    .social-pill-nav.collapsed:not(.force-expanded):hover .social-collapsed-toggle {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+
+    /* Individual social icon buttons - no black background */
     .social-pill-item {
       display: inline-flex;
       align-items: center;
@@ -206,82 +273,37 @@
       background: transparent;
       color: #1e293b;
       padding: 0.5rem 1.15rem;
-      position: relative;
-      z-index: 3;
       gap: 6px;
-    }
-    .social-pill-item i {
-      font-size: 1.2rem;
-      width: 1.2rem;
-      text-align: center;
-    }
-    .social-pill-item:hover {
-      color: #0f172a;
-    }
-    .social-pill-item.active-text {
-      color: #fff !important;
-      font-weight: 520;
-    }
-    .social-pill-item:active {
-      transform: scale(0.97);
-      transition: transform 0.06s;
-    }
-    .social-sliding-pill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: #000000;
-      border-radius: 100px;
-      box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
-      z-index: 1;
-      transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1),
-                  width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
-      pointer-events: none;
-    }
-    .social-pill-item:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-      border-radius: 100px;
-      color: #000;
-      background: #00000033;
+      transition: color 0.2s;
     }
 
-    /* ---------- MAIN PILL (BOTTOM CENTER) - UNMODIFIED KEEP INTER ---------- */
+    .social-pill-item i { font-size: 1.2rem; width: 1.2rem; }
+    /* Active state: just text/icon color change, no black pill */
+    .social-pill-item.active-text { 
+      color: #000 !important; 
+      font-weight: 700;
+      text-shadow: none;
+    }
+
+    /* ---------- MAIN NAVIGATION PILL (unified glass) ---------- */
     .pill-nav {
-      position: relative;
+      position: fixed;
+      bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
+      left: 50%;
+      transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(2px);
       border-radius: 120px;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2),
-                  0 1px 2px rgba(0, 0, 0, 0.05),
-                  inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
       display: inline-flex;
-      max-width: 100%;
-      z-index: 10;
-      margin-bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
-      transition: box-shadow 0.3s;
+      max-width: 90vw;
+      z-index: 80;
       overflow-x: auto;
-      overflow-y: hidden;
       scrollbar-width: thin;
-      -webkit-overflow-scrolling: touch;
     }
-    .pill-nav::-webkit-scrollbar {
-      height: 4px;
-    }
-    .pill-nav::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 10px;
-    }
-    .pill-nav::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-    }
-    .pill-nav:hover {
-      box-shadow: 0 24px 42px -14px rgba(2, 47, 81, 0.396);
-    }
+    .pill-nav::-webkit-scrollbar { height: 4px; }
     .pill-group {
       position: relative;
-      z-index: 2;
       display: flex;
       flex-wrap: nowrap;
       gap: 0.25rem;
@@ -297,32 +319,18 @@
       white-space: nowrap;
       cursor: pointer;
       border-radius: 100px;
-      text-decoration: none;
-      background: 0 0;
+      background: transparent;
       color: #1e293b;
       padding: 0.5rem 1.15rem;
       transition: color 0.2s, transform 0.15s;
       position: relative;
-      z-index: 3;
+      z-index: 5;
+      text-decoration: none;
     }
-    .nav-item.brand {
-      font-weight: 650;
-      color: #000000;
-      cursor: default;
-      padding: 0.5rem 0.9rem 0.5rem 0.4rem;
-      font-size: clamp(0.85rem, 4vw, 1.05rem);
-      pointer-events: none;
-    }
-    .interactive-pill:hover {
-      color: #1b1919;
-    }
-    .interactive-pill.active-text {
-      color: #fff !important;
+    .interactive-pill.active-text { 
+      color: #fff !important; 
       font-weight: 520;
-    }
-    .interactive-pill:active {
-      transform: scale(0.97);
-      transition: transform 0.06s;
+      text-shadow: 0 0 2px rgba(0,0,0,0.2);
     }
     .sliding-pill {
       position: absolute;
@@ -332,242 +340,427 @@
       border-radius: 100px;
       box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
       z-index: 1;
-      transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1),
-                  width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
+      transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
       pointer-events: none;
     }
-    .interactive-pill:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-      border-radius: 100px;
-      color: #000;
-      background: #00000033;
+
+    /* ---------- FLOATING GLASS CARDS ---------- */
+    .sections-container {
+      position: relative;
+      z-index: 2;
+      margin-top: 100vh;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
     }
-    @media (max-width: 640px) {
-      .pill-group, .social-pill-group {
-        padding: 0.5rem 1.1rem;
-        gap: 0.15rem;
-      }
-      .nav-item, .social-pill-item {
-        padding: 0.4rem 0.9rem;
-      }
-      .nav-item.brand {
-        padding: 0.4rem 0.7rem 0.4rem 0.3rem;
-      }
-      body {
-        padding: 0.75rem;
-      }
-      .pill-nav {
-        margin-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
-      }
-      .social-pill-nav {
-        top: 0.75rem;
-        right: 0.75rem;
-        max-width: calc(100% - 1.5rem);
-      }
+
+    .section-card {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      padding: 3rem 2rem;
+      margin: 0 auto;
+      max-width: 1100px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.25s ease, background 0.2s;
+      scroll-margin-top: 80px;
     }
-    @media (max-width: 480px) {
-      .pill-group, .social-pill-group {
-        padding: 0.45rem 0.9rem;
-        gap: 0.1rem;
-      }
-      .nav-item, .social-pill-item {
-        padding: 0.35rem 0.8rem;
-      }
+    .section-card:hover {
+      background: rgba(255, 255, 255, 0.65);
+      transform: translateY(-4px);
     }
-    .pill-nav, .social-pill-nav {
-      animation: fadeIn 0.5s ease-out;
+    .section-card h2 {
+      font-family: 'Fuzzy Bubbles', cursive;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e293b;
+      text-shadow: none;
+      margin-bottom: 1.2rem;
     }
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .section-card p, .section-card li {
+      color: #0f172a;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 500;
+    }
+    .project-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+      list-style: none;
+    }
+    .project-list li {
+      background: rgba(0, 0, 0, 0.08);
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      font-weight: 500;
+    }
+    .connect-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .mock-btn {
+      background: rgba(0, 0, 0, 0.1);
+      padding: 0.7rem 1.5rem;
+      border-radius: 60px;
+      color: #1e293b;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(2px);
+    }
+    .mock-btn:hover { background: rgba(0, 0, 0, 0.2); transform: scale(0.98); }
+
+    @media (max-width: 680px) {
+      .sections-container { padding: 1rem; gap: 1.5rem; }
+      .section-card { padding: 2rem 1.2rem; border-radius: 40px; }
+      .section-card h2 { font-size: 1.8rem; }
+      .section-card p { font-size: 1rem; }
+      .social-pill-group { padding: 0.4rem 1.2rem; gap: 0.1rem; }
+      .social-pill-item { padding: 0.3rem 0.8rem; }
+    }
+
+    .profile-section.compact .greeting, 
+    .profile-section.compact .fullname {
+      animation: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- PROFILE SECTION: photo + animated text (Fuzzy Bubbles + staggered timing) -->
-  <div class="profile-section">
-    <!-- Profile picture: appears first with fade-in (0s delay) -->
+  <div class="profile-section" id="profileSection">
     <img class="profile-photo" src="pfp2.jpg" alt="Profile Photo">
     <div class="profile-clear-text">
-      <!-- Greeting text changed to 'hey i am', will appear after 0.3 sec -->
       <div class="greeting">hey i am</div>
-      <!-- Full name updated to 'Mayur Sanjay Patil', appears after 0.6 sec (0.3 after greeting) -->
       <div class="fullname">Mayur Sanjay Patil</div>
     </div>
   </div>
 
-  <!-- SOCIAL MEDIA PILL (TOP RIGHT) - icons + home sliding pill -->
+  <!-- SOCIAL MEDIA PILL - NO BLACK SLIDING INDICATOR -->
   <div class="social-pill-nav" id="socialPillNav">
-    <div class="social-sliding-pill" id="socialSlidingPill"></div>
-    <ul class="social-pill-group">
-      <li><a href="#" class="social-pill-item" data-social="home"><i class="fas fa-home"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="github"><i class="fab fa-github"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="linkedin"><i class="fab fa-linkedin"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="twitter"><i class="fab fa-twitter"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="reddit"><i class="fab fa-reddit-alien"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="instagram"><i class="fab fa-instagram"></i></a></li>
+    <div class="social-pill-inner">
+      <ul class="social-pill-group">
+        <li><a href="#" class="social-pill-item" data-social="github"><i class="fab fa-github"></i></a></li>
+        <li><a href="#" class="social-pill-item" data-social="linkedin"><i class="fab fa-linkedin"></i></a></li>
+        <li><a href="#" class="social-pill-item" data-social="twitter"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#" class="social-pill-item" data-social="reddit"><i class="fab fa-reddit-alien"></i></a></li>
+        <li><a href="#" class="social-pill-item" data-social="instagram"><i class="fab fa-instagram"></i></a></li>
+      </ul>
+      <div class="social-collapsed-toggle">
+        <span>Social Media</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN NAVIGATION PILL -->
+  <div class="pill-nav" id="mainPillNav">
+    <div class="sliding-pill" id="slidingPill"></div>
+    <ul class="pill-group">
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-mayur">Mayur Patil</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-about">About</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-projects">Projects</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-connect">Let's Connect</a></li>
     </ul>
   </div>
 
-  <!-- MAIN PILL (BOTTOM CENTER) - preserved, uses Inter font -->
-  <div class="pill-nav" id="P">
-    <div class="sliding-pill" id="S"></div>
-    <ul class="pill-group">
-      <li><a href="#" class="nav-item interactive-pill" data-key="work">Mayur Patil</a></li>
-      <li><a href="#" class="nav-item interactive-pill" data-key="about">About</a></li>
-      <li><a href="#" class="nav-item interactive-pill" data-key="projects">Projects</a></li>
-      <li><a href="#" class="nav-item interactive-pill" data-key="connect">Let's Connect</a></li>
-    </ul>
+  <div class="sections-container">
+    <section id="section-mayur" class="section-card">
+      <h2>✨ Mayur Sanjay Patil</h2>
+      <p>Design enthusiast, full-stack creator, and minimalist coder. I believe in building experiences that feel like magic. Currently exploring interactive web animations and seamless UI.</p>
+      <p style="margin-top: 1rem;">📍 Based in India · 🎯 Building digital tools that inspire.</p>
+    </section>
+    <section id="section-about" class="section-card">
+      <h2>📖 About Me</h2>
+      <p>I'm Mayur, a passionate developer with 5+ years of crafting pixel-perfect interfaces. I blend design thinking with clean code. Outside tech, I love sketching, poetry, and long walks.</p>
+      <p style="margin-top: 0.8rem;">💡 Core values: Simplicity, clarity, and human-first design.</p>
+    </section>
+    <section id="section-projects" class="section-card">
+      <h2>🚀 Projects</h2>
+      <ul class="project-list">
+        <li>✨ Pill UI Library</li>
+        <li>🌿 GreenCanvas Studio</li>
+        <li>🎵 Moodify Player</li>
+        <li>📱 Pocket Notes AI</li>
+      </ul>
+      <p style="margin-top: 1rem;">Each project is a playground for innovation — check out live demos soon.</p>
+    </section>
+    <section id="section-connect" class="section-card">
+      <h2>🤝 Let's Connect</h2>
+      <p>Open for collaborations, freelance, or just a tech chat! Reach me via socials or email.</p>
+      <div class="connect-buttons">
+        <a href="#" class="mock-btn"><i class="fab fa-github"></i> GitHub</a>
+        <a href="#" class="mock-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="#" class="mock-btn"><i class="fas fa-envelope"></i> Mail</a>
+      </div>
+    </section>
   </div>
 
   <script>
-    // ---------- MAIN PILL LOGIC (unchanged, ensures smooth sliding) ----------
-    (function () {
-      let P = document.getElementById("P"),
-        S = document.getElementById("S"),
-        btns = document.querySelectorAll("#P .interactive-pill");
-      function rect(e) {
-        let r = P.getBoundingClientRect(),
-          b = e.getBoundingClientRect();
-        return {
-          left: b.left - r.left,
-          top: b.top - r.top,
-          width: b.width,
-          height: b.height,
+    (function() {
+      // ------------------- MAIN PILL (unchanged) -------------------
+      const pillContainer = document.getElementById("mainPillNav");
+      const slidingPill = document.getElementById("slidingPill");
+      const navBtns = Array.from(document.querySelectorAll("#mainPillNav .interactive-pill"));
+      let currentActiveBtn = null;
+      let ignoreScrollUpdates = false;
+      let scrollTimeout = null;
+
+      function getRelativeRect(btn) {
+        const containerRect = pillContainer.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+        return { left: btnRect.left - containerRect.left, top: btnRect.top - containerRect.top, width: btnRect.width, height: btnRect.height };
+      }
+
+      function movePillTo(targetBtn, withTransition = true) {
+        if (!targetBtn) return;
+        const rect = getRelativeRect(targetBtn);
+        if (!withTransition) slidingPill.style.transition = "none";
+        slidingPill.style.width = rect.width + "px";
+        slidingPill.style.height = rect.height + "px";
+        slidingPill.style.transform = `translate(${rect.left}px, ${rect.top}px)`;
+        if (!withTransition) {
+          void slidingPill.offsetHeight;
+          slidingPill.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
+        }
+        navBtns.forEach(btn => btn.classList.remove("active-text"));
+        targetBtn.classList.add("active-text");
+        currentActiveBtn = targetBtn;
+      }
+
+      if (navBtns.length) {
+        currentActiveBtn = navBtns[0];
+        movePillTo(navBtns[0], false);
+      }
+
+      function smoothScrollToSection(sectionId, btn) {
+        const targetSection = document.getElementById(sectionId);
+        if (!targetSection) return;
+        ignoreScrollUpdates = true;
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        const finishScroll = () => {
+          ignoreScrollUpdates = false;
+          updateActivePillFromScroll();
+          scrollTimeout = null;
         };
-      }
-      function move(t) {
-        if (!t) return;
-        let r = rect(t);
-        S.style.width = r.width + "px";
-        S.style.height = r.height + "px";
-        S.style.transform = `translate(${r.left}px,${r.top}px)`;
-        btns.forEach((b) => b.classList.remove("active-text"));
-        t.classList.add("active-text");
-        btns.forEach((b) => b.removeAttribute("aria-current"));
-        t.setAttribute("aria-current", "page");
-      }
-      let active = null;
-      function upd() {
-        if (active) {
-          let r = rect(active);
-          S.style.width = r.width + "px";
-          S.style.height = r.height + "px";
-          S.style.transform = `translate(${r.left}px,${r.top}px)`;
+        if ('onscrollend' in window) {
+          window.addEventListener('scrollend', () => { if (ignoreScrollUpdates) finishScroll(); }, { once: true });
+        } else {
+          scrollTimeout = setTimeout(finishScroll, 600);
+        }
+        if (currentActiveBtn !== btn) {
+          movePillTo(btn, true);
+          btn.focus({ preventScroll: true });
+          btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
         }
       }
-      btns.forEach((b) => {
-        b.addEventListener("click", (e) => {
+
+      navBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
           e.preventDefault();
-          if (b === active) return;
-          active = b;
-          move(b);
-          b.focus({ preventScroll: false });
-          b.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+          const sectionId = btn.getAttribute("data-section");
+          if (sectionId) smoothScrollToSection(sectionId, btn);
+          else if (currentActiveBtn !== btn) {
+            movePillTo(btn, true);
+            btn.focus({ preventScroll: true });
+            btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+          }
         });
       });
-      let defaultBtn = [...btns].find((b) => b.innerText.trim() === "Mayur Patil");
-      if (defaultBtn) {
-        active = defaultBtn;
-        S.style.transition = "none";
-        move(defaultBtn);
-        void S.offsetHeight;
-        S.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-        setTimeout(() => {
-          defaultBtn.focus();
-          defaultBtn.scrollIntoView({ behavior: "auto", block: "nearest", inline: "center" });
-        }, 80);
-      } else if (btns[0]) {
-        active = btns[0];
-        S.style.transition = "none";
-        move(btns[0]);
-        void S.offsetHeight;
-        S.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-        setTimeout(() => btns[0].focus(), 80);
-      }
-      let t;
+
+      let resizeTimer;
       window.addEventListener("resize", () => {
-        clearTimeout(t);
-        t = setTimeout(upd, 100);
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { if (currentActiveBtn) movePillTo(currentActiveBtn, true); }, 100);
       });
       if (window.ResizeObserver) {
-        new ResizeObserver(upd).observe(P);
+        new ResizeObserver(() => { if (currentActiveBtn) movePillTo(currentActiveBtn, true); }).observe(pillContainer);
       }
-    })();
 
-    // ---------- SOCIAL MEDIA PILL LOGIC (click moves pill, stays functional) ----------
-    (function () {
-      const socialContainer = document.getElementById("socialPillNav");
-      const slidingPill = document.getElementById("socialSlidingPill");
+      // ------------------- SOCIAL PILL (no black pill, just active-text class) -------------------
+      const socialNav = document.getElementById("socialPillNav");
       const socialBtns = document.querySelectorAll("#socialPillNav .social-pill-item");
+      let activeSocial = null;
+      let socialForceExpanded = false;
+      let isHovering = false;
+      let hoverTimer = null;
 
-      function getRelativeRect(element) {
-        const containerRect = socialContainer.getBoundingClientRect();
-        const elemRect = element.getBoundingClientRect();
-        return {
-          left: elemRect.left - containerRect.left,
-          top: elemRect.top - containerRect.top,
-          width: elemRect.width,
-          height: elemRect.height,
-        };
-      }
-
-      function movePillTo(target) {
+      // Simple active class management (no sliding pill)
+      function setActiveSocial(target) {
         if (!target) return;
-        const r = getRelativeRect(target);
-        slidingPill.style.width = r.width + "px";
-        slidingPill.style.height = r.height + "px";
-        slidingPill.style.transform = `translate(${r.left}px, ${r.top}px)`;
         socialBtns.forEach(btn => btn.classList.remove("active-text"));
         target.classList.add("active-text");
+        activeSocial = target;
       }
 
-      let currentActive = null;
+      // Initialize active = home (first item)
+      if (socialBtns.length) {
+        setActiveSocial(socialBtns[0]);
+      }
+
+      // Click on social icons: update active class
       socialBtns.forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.preventDefault();
-          if (btn === currentActive) return;
-          currentActive = btn;
-          movePillTo(btn);
+          if (activeSocial === btn) return;
+          setActiveSocial(btn);
           btn.focus({ preventScroll: false });
           btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
         });
       });
 
-      if (socialBtns.length > 0) {
-        currentActive = socialBtns[0];
-        slidingPill.style.transition = "none";
-        movePillTo(socialBtns[0]);
-        void slidingPill.offsetHeight;
-        slidingPill.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-        setTimeout(() => socialBtns[0].focus(), 80);
-      }
-
-      function updateSocialPill() {
-        if (currentActive) {
-          const r = getRelativeRect(currentActive);
-          slidingPill.style.width = r.width + "px";
-          slidingPill.style.height = r.height + "px";
-          slidingPill.style.transform = `translate(${r.left}px, ${r.top}px)`;
+      // Collapse/expand based on scroll
+      function updateSocialCollapse() {
+        const scrollY = window.scrollY;
+        if (scrollY <= 50) {
+          socialForceExpanded = false;
+          if (socialNav.classList.contains("collapsed")) {
+            socialNav.classList.remove("collapsed");
+          }
+        } else {
+          if (!socialForceExpanded && !socialNav.classList.contains("collapsed")) {
+            socialNav.classList.add("collapsed");
+          } else if (socialForceExpanded && socialNav.classList.contains("collapsed")) {
+            socialNav.classList.remove("collapsed");
+          }
         }
       }
 
-      let resizeTimer;
-      window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(updateSocialPill, 100);
-      });
-      if (window.ResizeObserver) {
-        new ResizeObserver(updateSocialPill).observe(socialContainer);
+      const collapsedToggle = socialNav.querySelector(".social-collapsed-toggle");
+      if (collapsedToggle) {
+        collapsedToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (socialNav.classList.contains("collapsed")) {
+            socialNav.classList.remove("collapsed");
+            socialForceExpanded = true;
+          } else if (socialForceExpanded) {
+            socialForceExpanded = false;
+            if (window.scrollY > 50) socialNav.classList.add("collapsed");
+          }
+        });
       }
+
+      socialNav.addEventListener("mouseenter", () => {
+        if (socialNav.classList.contains("collapsed") && !socialForceExpanded) {
+          if (hoverTimer) clearTimeout(hoverTimer);
+          isHovering = true;
+          socialNav.classList.remove("collapsed");
+        }
+      });
+
+      socialNav.addEventListener("mouseleave", () => {
+        if (isHovering && !socialForceExpanded) {
+          hoverTimer = setTimeout(() => {
+            if (window.scrollY > 50 && !socialForceExpanded) {
+              socialNav.classList.add("collapsed");
+            } else if (window.scrollY <= 50) {
+              socialNav.classList.remove("collapsed");
+            }
+            isHovering = false;
+          }, 150);
+        }
+      });
+
+      // ------------------- SCROLL SYNC (profile compact + main pill) -------------------
+      const profileSection = document.getElementById("profileSection");
+      const sectionsData = [
+        { id: "section-mayur", btnText: "Mayur Patil" },
+        { id: "section-about", btnText: "About" },
+        { id: "section-projects", btnText: "Projects" },
+        { id: "section-connect", btnText: "Let's Connect" }
+      ];
+
+      function updateActivePillFromScroll() {
+        if (ignoreScrollUpdates) return;
+        let bestSection = null;
+        let maxVisibility = 0;
+        for (let sec of sectionsData) {
+          const element = document.getElementById(sec.id);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+            const totalHeight = rect.height;
+            const visibilityRatio = totalHeight > 0 ? Math.max(0, visibleHeight / totalHeight) : 0;
+            if (visibilityRatio > maxVisibility) {
+              maxVisibility = visibilityRatio;
+              bestSection = sec;
+            }
+          }
+        }
+        if (bestSection && maxVisibility > 0.2) {
+          const targetBtn = navBtns.find(btn => btn.getAttribute("data-section") === bestSection.id);
+          if (targetBtn && currentActiveBtn !== targetBtn) {
+            movePillTo(targetBtn, true);
+            currentActiveBtn = targetBtn;
+          }
+        }
+      }
+
+      function handleProfileCompact() {
+        const scrollAmount = window.scrollY;
+        if (scrollAmount > 50) {
+          if (!profileSection.classList.contains("compact")) profileSection.classList.add("compact");
+        } else {
+          if (profileSection.classList.contains("compact")) profileSection.classList.remove("compact");
+        }
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        if (ignoreScrollUpdates) return;
+        let visibleSections = [];
+        for (let entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.25) visibleSections.push(entry.target.id);
+        }
+        if (visibleSections.length) {
+          const mostVisible = visibleSections[0];
+          const matchedSection = sectionsData.find(s => s.id === mostVisible);
+          if (matchedSection) {
+            const matchedBtn = navBtns.find(btn => btn.getAttribute("data-section") === matchedSection.id);
+            if (matchedBtn && currentActiveBtn !== matchedBtn) {
+              movePillTo(matchedBtn, true);
+              currentActiveBtn = matchedBtn;
+            }
+          }
+        } else {
+          updateActivePillFromScroll();
+        }
+      }, { threshold: 0.3, rootMargin: "-20% 0px -30% 0px" });
+
+      sectionsData.forEach(sec => {
+        const el = document.getElementById(sec.id);
+        if (el) observer.observe(el);
+      });
+
+      window.addEventListener("scroll", () => {
+        handleProfileCompact();
+        updateSocialCollapse();
+        if (!ignoreScrollUpdates) updateActivePillFromScroll();
+      });
+      
+      handleProfileCompact();
+      updateActivePillFromScroll();
+      updateSocialCollapse();
+
+      window.addEventListener("load", () => {
+        updateActivePillFromScroll();
+        handleProfileCompact();
+        updateSocialCollapse();
+      });
+      
+      window.dispatchEvent(new Event('resize'));
     })();
   </script>
 </body>
