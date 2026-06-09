@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Pill · Unified Glass · Smooth Cards</title>
+  <title>Pill · Unified Glass · Dark Fullscreen</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
@@ -500,11 +500,179 @@
     }
     .mock-btn:hover { background: rgba(0, 0, 0, 0.2); transform: scale(0.98); }
 
-
-
     .profile-section.compact .greeting, 
     .profile-section.compact .fullname {
       animation: none;
+    }
+  </style>
+  <!-- ########## DARK THEME + FULLSCREEN CARDS (OVERRIDES) ########## -->
+  <style>
+    /* ----- DARK THEME BASE ----- */
+    body {
+      background: #05080f !important;
+      background-image: none !important;
+    }
+    body::before {
+      display: none !important;
+    }
+    /* All text becomes white by default */
+    body, .profile-clear-text, .section-card, .section-card *,
+    .social-pill-item, .nav-item, .mock-btn, .project-list li,
+    .profile-section.compact .profile-clear-text, .profile-clear-text .greeting,
+    .profile-clear-text .fullname {
+      color: #ffffff !important;
+    }
+    /* Ensure headings also white */
+    .section-card h2, .section-card p, .section-card li, .profile-clear-text .greeting,
+    .profile-clear-text .fullname {
+      color: white !important;
+    }
+    /* Compact profile text on dark background (override original) */
+    .profile-section.compact .greeting,
+    .profile-section.compact .fullname {
+      color: #f0f0f0 !important;
+    }
+    /* Dark glass effect for profile compact */
+    .profile-section.compact {
+      background: rgba(10, 15, 25, 0.65) !important;
+      backdrop-filter: blur(8px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.5) !important;
+    }
+    /* Social pill & main pill dark version */
+    .social-pill-nav, .pill-nav {
+      background: rgba(15, 20, 30, 0.7) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.5) !important;
+    }
+    .social-pill-item, .nav-item {
+      color: #f0f0f0 !important;
+      transition: all 0.2s;
+    }
+    .social-pill-item:hover, .nav-item:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 4px rgba(255,255,240,0.8);
+    }
+    /* active social icon: highlight with light background */
+    .social-pill-item.active-text {
+      background: rgba(255, 255, 255, 0.2) !important;
+      color: white !important;
+      transform: scale(1.1);
+      border-radius: 50%;
+    }
+    /* main pill sliding active indicator: white pill, text black */
+    .sliding-pill {
+      background: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+    .interactive-pill.active-text {
+      color: #0a0f1a !important;
+      font-weight: 700 !important;
+      text-shadow: none !important;
+    }
+    /* ----- FULLSCREEN CARDS (no gaps, each card = full viewport) ----- */
+    .sections-container {
+      margin-top: 100vh !important;
+      padding: 0 !important;
+      gap: 0 !important;
+    }
+    .section-card {
+      max-width: 100% !important;
+      width: 100% !important;
+      min-height: 100vh !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 2rem 2rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(8, 12, 22, 0.75) !important;
+      backdrop-filter: blur(18px) !important;
+      box-shadow: none !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+      transition: background 0.25s, transform 0.2s;
+      scroll-margin-top: 0;
+    }
+    .section-card:hover {
+      background: rgba(12, 18, 30, 0.85) !important;
+      transform: translateY(0) !important;
+    }
+    /* Full width card content, maintain readability */
+    .section-card p, .section-card li {
+      max-width: 800px !important;
+    }
+    .section-card h2 {
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+    /* Buttons and interactive elements in dark */
+    .mock-btn {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      color: white !important;
+    }
+    .mock-btn:hover {
+      background: rgba(255, 255, 255, 0.25) !important;
+      transform: scale(0.98);
+      color: white !important;
+    }
+    .project-list li {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 0.5px solid rgba(255,255,255,0.2);
+    }
+    /* Make profile photo border adapt */
+    .profile-photo {
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 12px 24px -8px black;
+    }
+    /* override any leftover dark text inside compact on dark */
+    .profile-section.compact .profile-clear-text .greeting,
+    .profile-section.compact .profile-clear-text .fullname {
+      color: #f8fafc !important;
+    }
+    /* Ensure all links/buttons have white text */
+    .connect-buttons a, .social-pill-item, .nav-item {
+      color: #f1f5f9 !important;
+    }
+    /* Adjust mobile overrides to keep fullscreen cards fluid */
+    @media (max-width: 768px) {
+      .section-card {
+        padding: 2rem 1.2rem !important;
+        min-height: 100vh !important;
+      }
+      .section-card h2 {
+        font-size: 2rem !important;
+      }
+      .section-card p, .section-card li {
+        font-size: 1rem !important;
+      }
+      .sections-container {
+        margin-top: 100vh !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .section-card {
+        padding: 1.8rem 1rem !important;
+        min-height: 100vh !important;
+        justify-content: center !important;
+      }
+      .section-card h2 {
+        font-size: 1.6rem !important;
+      }
+    }
+    /* preserve original intersection observer margins, just visual fullscreen */
+    .section-card {
+      scroll-margin-top: 0px;
+    }
+    /* slight glow for active pill text */
+    .interactive-pill.active-text {
+      text-shadow: 0 0 2px rgba(0,0,0,0.2);
+    }
+    /* keep all initial transition effects but background dark */
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
@@ -658,13 +826,11 @@
       const socialBtns = document.querySelectorAll("#socialPillNav .social-pill-item");
       let activeSocial = null;
 
-      // Initialize first icon as active
       if (socialBtns.length) {
         socialBtns[0].classList.add("active-text");
         activeSocial = socialBtns[0];
       }
 
-      // Click on social icons: update active class
       socialBtns.forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.preventDefault();
