@@ -425,7 +425,7 @@
       scroll-behavior: smooth;
     }
 
-    @media (max-width: 1024px) {
+    @media (pointer: coarse), (max-width: 1080px) {
       #world {
         display: none !important;
       }

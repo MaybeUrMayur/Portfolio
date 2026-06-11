@@ -252,8 +252,9 @@
       
       function step() {
         requestAnimationFrame(step);
-        if (window.innerWidth <= 1024) return;
-        context.fillStyle = window.innerWidth <= 1024 ? "#000" : "#111";
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (isTouch || window.innerWidth <= 1080) return;
+        context.fillStyle = (isTouch || window.innerWidth <= 1080) ? "#000" : "#111";
         context.fillRect(0, 0, w, h);
         for (let c of confetti) {
           c.draw();
