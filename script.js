@@ -295,49 +295,10 @@
         });
       }, { threshold: 0.1 });
 
-      // Helper to split text into words and wrap them with staggered delays
-      function applyWordByWordEffect(container) {
-        if (container.classList.contains('word-effect-applied')) return;
-        container.classList.add('word-effect-applied');
-        
-        let wordIndex = 0;
-        
-        function processNode(node) {
-          if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.nodeValue;
-            if (!text.trim()) return;
-            
-            const fragment = document.createDocumentFragment();
-            const parts = text.split(/(\s+)/);
-            parts.forEach(part => {
-              if (!part) return;
-              if (/^\s+$/.test(part)) {
-                fragment.appendChild(document.createTextNode(part));
-              } else {
-                const span = document.createElement('span');
-                span.className = 'blur-word';
-                span.style.transitionDelay = `${Math.min(wordIndex * 25, 800)}ms`; // Cap delay to avoid excessive waits
-                span.textContent = part;
-                fragment.appendChild(span);
-                wordIndex++;
-              }
-            });
-            node.parentNode.replaceChild(fragment, node);
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            if (node.tagName === 'SCRIPT' || node.classList.contains('blur-word') || node.tagName === 'I') return;
-            Array.from(node.childNodes).forEach(processNode);
-          }
-        }
-        
-        Array.from(container.childNodes).forEach(processNode);
-      }
-
       // 2. Select individual paragraphs, headings, and list items and observe them
       const items = document.querySelectorAll('.section-card p, .section-card h2, .section-card h3, .section-card li');
       items.forEach(item => {
         item.classList.add('animated-item');
-        // Apply word-by-word splitting on all screen sizes
-        applyWordByWordEffect(item);
         observer.observe(item);
       });
     })();
