@@ -3,776 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Pill · Unified Glass · Dark Fullscreen</title>
-  <!-- New Google Fonts: Bitcount Single -->
+  <title>Mayur Patil | Portfolio</title>
+  <!-- Google Fonts: Libre Baskerville -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,500&display=swap" rel="stylesheet">
   <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: url("ru30ibrcuv3h1.png") center/cover fixed;
-      font-family: 'Bitcount Single', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.25);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ---------- PROFILE SECTION (smooth transition) ---------- */
-    .profile-section {
-      position: fixed;
-      z-index: 50;
-      text-align: center;
-      width: auto;
-      max-width: 340px;
-      padding: 0;
-      pointer-events: none;
-      transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      will-change: transform, top, left, width, background, padding;
-      backface-visibility: hidden;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .profile-section.compact {
-      top: 1.2rem;
-      left: 1.2rem;
-      transform: none;
-      flex-direction: row;
-      gap: 1rem;
-      align-items: center;
-      max-width: 85vw;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(2px);
-      border-radius: 120px;
-      padding: 0.5rem 1.2rem 0.5rem 0.8rem;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-      pointer-events: none;
-    }
-
-    .profile-photo {
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.3);
-      border: 3px solid rgba(255, 255, 255, 0.6);
-      transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(4px);
-    }
-
-    .profile-section.compact .profile-photo {
-      width: 56px;
-      height: 56px;
-      border-width: 2px;
-      box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.2);
-    }
-
-    .profile-photo:hover {
-      transform: scale(1.02);
-    }
-    .profile-section.compact .profile-photo:hover {
-      transform: scale(1.05);
-    }
-
-    .profile-clear-text {
-      margin-top: 1.2rem;
-      color: white;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-      transition: all 0.6s ease;
-      text-align: center;
-    }
-
-    .profile-section.compact .profile-clear-text {
-      margin-top: 0;
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.1rem;
-      color: #1e293b;
-      text-shadow: none;
-    }
-
-    .profile-clear-text .greeting {
-      font-family: 'Bitcount Single', sans-serif;
-      font-weight: 700;
-      font-size: 1.55rem;
-      line-height: 1.3;
-      animation: textSlideUp 0.55s ease-out 0.3s forwards;
-    }
-
-    .profile-clear-text .fullname {
-      font-family: 'Bitcount Single', sans-serif;
-      font-weight: 700;
-      font-size: 2.3rem;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-top: 0.25rem;
-      animation: textSlideUp 0.55s ease-out 0.7s forwards;
-    }
-
-    .profile-section.compact .greeting {
-      font-size: 0.85rem;
-      line-height: 1.2;
-      animation: none;
-      font-weight: 600;
-      color: #1e293b;
-    }
-    .profile-section.compact .fullname {
-      font-size: 1.2rem;
-      margin-top: 0;
-      line-height: 1.3;
-      animation: none;
-      font-weight: 700;
-      color: #0f172a;
-    }
-
-    @keyframes textSlideUp {
-      0% { opacity: 0; transform: translateY(22px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      /* Profile section - hide expanded, always show compact on mobile */
-      .profile-section:not(.compact) {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .profile-section {
-        top: 0.8rem !important;
-        left: 0.8rem !important;
-        transform: none !important;
-        max-width: calc(100vw - 4rem) !important;
-      }
-      .profile-section.compact {
-        display: flex !important;
-        padding: 0.4rem 0.8rem !important;
-        gap: 0.6rem;
-      }
-      .profile-photo { width: 80px; height: 80px; }
-      .profile-clear-text .greeting { font-size: 1.15rem; }
-      .profile-clear-text .fullname { font-size: 1.5rem; }
-      .profile-section.compact .profile-photo { width: 40px; height: 40px; }
-      .profile-section.compact .fullname { font-size: 0.9rem; }
-      .profile-section.compact .greeting { font-size: 0.65rem; }
-      
-      /* Social pill - compact on mobile */
-      .social-pill-nav {
-        top: 0.8rem;
-        right: 0.8rem;
-        max-width: calc(100vw - 1.6rem);
-      }
-      .social-pill-group { 
-        padding: 0.4rem 0.6rem; 
-        gap: 0.3rem; 
-      }
-      .social-pill-item { 
-        padding: 0.25rem;
-        border-radius: 50%;
-      }
-      .social-pill-item i { 
-        font-size: 1rem; 
-        width: 1rem; 
-        height: 1rem;
-      }
-      
-      /* Main nav pill - adjust sizing */
-      .pill-nav {
-        bottom: 0.8rem;
-        max-width: calc(100vw - 1.6rem);
-        padding: 0.4rem 0.8rem;
-      }
-      .pill-group { 
-        padding: 0 0.6rem; 
-        gap: 0.1rem;
-      }
-      .nav-item {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.8rem;
-      }
-      
-      /* Sections container - proper spacing */
-      .sections-container { 
-        margin-top: 50vh;
-        padding: 1rem 1rem 7rem 1rem;
-        gap: 1.2rem; 
-      }
-      .section-card { 
-        padding: 1.5rem 1rem; 
-        border-radius: 40px;
-        scroll-margin-top: 60px;
-      }
-      .section-card h2 { font-size: 1.6rem; }
-      .section-card p, .section-card li { font-size: 0.95rem; }
-      .mock-btn { 
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .profile-section {
-        top: 0.6rem !important;
-        left: 0.6rem !important;
-        max-width: calc(100vw - 3rem) !important;
-      }
-      .profile-section.compact {
-        padding: 0.35rem 0.6rem !important;
-        gap: 0.5rem;
-      }
-      .profile-photo { width: 70px; height: 70px; }
-      .profile-clear-text .greeting { font-size: 1rem; }
-      .profile-clear-text .fullname { font-size: 1.3rem; }
-      .profile-section.compact .profile-photo { width: 36px; height: 36px; }
-      .profile-section.compact .fullname { font-size: 0.8rem; }
-      .profile-section.compact .greeting { font-size: 0.6rem; }
-      
-      /* Social pill mobile */
-      .social-pill-nav {
-        top: 0.6rem;
-        right: 0.6rem;
-        max-width: calc(100vw - 1.2rem);
-      }
-      .social-pill-group { 
-        padding: 0.35rem 0.5rem; 
-        gap: 0.25rem; 
-      }
-      .social-pill-item { 
-        padding: 0.2rem;
-      }
-      .social-pill-item i { 
-        font-size: 0.9rem; 
-        width: 0.9rem; 
-        height: 0.9rem;
-      }
-      
-      /* Main nav mobile */
-      .pill-nav {
-        bottom: 0.6rem;
-        max-width: calc(100vw - 1.2rem);
-      }
-      .pill-group { 
-        padding: 0 0.5rem; 
-      }
-      .nav-item {
-        font-size: 0.7rem;
-        padding: 0.35rem 0.6rem;
-      }
-      
-      /* Sections mobile */
-      .sections-container { 
-        margin-top: 45vh;
-        padding: 0.8rem 0.8rem 6.5rem 0.8rem;
-        gap: 1rem; 
-      }
-      .section-card { 
-        padding: 1.2rem 0.8rem; 
-        border-radius: 30px;
-      }
-      .section-card h2 { font-size: 1.4rem; margin-bottom: 0.8rem; }
-      .section-card p, .section-card li { font-size: 0.9rem; }
-      .project-list { gap: 0.6rem; }
-      .project-list li { padding: 0.4rem 0.8rem; }
-      .connect-buttons { gap: 0.6rem; }
-      .mock-btn { 
-        padding: 0.45rem 0.9rem;
-        font-size: 0.8rem;
-      }
-    }
-    
-    @media (max-width: 360px) {
-      .sections-container { margin-top: 40vh; }
-      .section-card h2 { font-size: 1.2rem; }
-      .section-card p { font-size: 0.85rem; }
-      .nav-item { font-size: 0.65rem; padding: 0.3rem 0.5rem; }
-      .social-pill-item i { font-size: 0.8rem; width: 0.8rem; height: 0.8rem; }
-    }
-
-    /* ========== SOCIAL MEDIA PILL - STATIC ICONS ONLY ========== */
-    .social-pill-nav {
-      position: fixed;
-      top: 1.2rem;
-      right: 1.2rem;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(2px);
-      border-radius: 120px;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-      display: inline-flex;
-    }
-
-    .social-pill-group {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      list-style: none;
-      margin: 0;
-    }
-
-    /* Individual social icon buttons */
-    .social-pill-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      text-decoration: none;
-      background: transparent;
-      color: #1e293b;
-      padding: 0.4rem;
-      transition: color 0.2s, transform 0.2s;
-      border-radius: 50%;
-    }
-
-    .social-pill-item i { 
-      font-size: 1.3rem; 
-      width: 1.3rem; 
-      height: 1.3rem;
-    }
-
-    .social-pill-item:hover {
-      color: #000;
-      transform: scale(1.1);
-    }
-
-    .social-pill-item.active-text { 
-      color: #000;
-      transform: scale(1.15);
-    }
-
-    /* ---------- MAIN NAVIGATION PILL (unified glass) ---------- */
-    .pill-nav {
-      position: fixed;
-      bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(2px);
-      border-radius: 120px;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-      display: inline-flex;
-      max-width: 90vw;
-      z-index: 80;
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }
-    .pill-nav::-webkit-scrollbar { height: 4px; }
-    .pill-group {
-      position: relative;
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 0.25rem;
-      padding: 0.6rem 1.4rem;
-      list-style: none;
-      margin: 0;
-    }
-    .nav-item {
-      display: inline-flex;
-      align-items: center;
-      font-size: clamp(0.8rem, 4vw, 1rem);
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-      border-radius: 100px;
-      background: transparent;
-      color: #1e293b;
-      padding: 0.5rem 1.15rem;
-      transition: color 0.2s, transform 0.15s;
-      position: relative;
-      z-index: 5;
-      text-decoration: none;
-    }
-    .interactive-pill.active-text { 
-      color: #fff !important; 
-      font-weight: 520;
-      text-shadow: 0 0 2px rgba(0,0,0,0.2);
-    }
-    .sliding-pill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: #000000;
-      border-radius: 100px;
-      box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
-      z-index: 1;
-      transition: transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1);
-      pointer-events: none;
-    }
-
-    /* ---------- FLOATING GLASS CARDS ---------- */
-    .sections-container {
-      position: relative;
-      z-index: 2;
-      margin-top: 100vh;
-      padding: 2rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .section-card {
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(12px);
-      border-radius: 60px;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-      padding: 3rem 2rem;
-      margin: 0 auto;
-      max-width: 1100px;
-      width: 100%;
-      text-align: center;
-      transition: transform 0.25s ease, background 0.2s;
-      scroll-margin-top: 80px;
-    }
-    .section-card:hover {
-      background: rgba(255, 255, 255, 0.65);
-      transform: translateY(-4px);
-    }
-    .section-card h2 {
-      font-family: 'Bitcount Single', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #1e293b;
-      text-shadow: none;
-      margin-bottom: 1.2rem;
-    }
-    .section-card p, .section-card li {
-      color: #0f172a;
-      font-size: 1.2rem;
-      line-height: 1.5;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: 500;
-    }
-    .project-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 1rem;
-      list-style: none;
-    }
-    .project-list li {
-      background: rgba(0, 0, 0, 0.08);
-      padding: 0.5rem 1rem;
-      border-radius: 60px;
-      font-weight: 500;
-    }
-    .connect-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
-    .mock-btn {
-      background: rgba(0, 0, 0, 0.1);
-      padding: 0.7rem 1.5rem;
-      border-radius: 60px;
-      color: #1e293b;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.2s;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(2px);
-    }
-    .mock-btn:hover { background: rgba(0, 0, 0, 0.2); transform: scale(0.98); }
-
-    .profile-section.compact .greeting, 
-    .profile-section.compact .fullname {
-      animation: none;
-    }
-  </style>
-  <!-- ########## DARK THEME + FULLSCREEN CARDS (OVERRIDES) ########## -->
-  <style>
-    /* ----- DARK THEME BASE ----- */
-    body {
-      background: #05080f !important;
-      background-image: none !important;
-    }
-    body::before {
-      display: none !important;
-    }
-    /* All text becomes white by default */
-    body, .profile-clear-text, .section-card, .section-card *,
-    .social-pill-item, .nav-item, .mock-btn, .project-list li,
-    .profile-section.compact .profile-clear-text, .profile-clear-text .greeting,
-    .profile-clear-text .fullname {
-      color: #ffffff !important;
-    }
-    /* Ensure headings also white */
-    .section-card h2, .section-card p, .section-card li, .profile-clear-text .greeting,
-    .profile-clear-text .fullname {
-      color: white !important;
-    }
-    /* Compact profile text on dark background (override original) */
-    .profile-section.compact .greeting,
-    .profile-section.compact .fullname {
-      color: #f0f0f0 !important;
-    }
-    /* Dark glass effect for profile compact */
-    .profile-section.compact {
-      background: rgba(10, 15, 25, 0.65) !important;
-      backdrop-filter: blur(8px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-      box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.5) !important;
-    }
-    /* Social pill & main pill dark version */
-    .social-pill-nav, .pill-nav {
-      background: rgba(15, 20, 30, 0.7) !important;
-      backdrop-filter: blur(12px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-      box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.5) !important;
-    }
-    .social-pill-item, .nav-item {
-      color: #f0f0f0 !important;
-      transition: all 0.2s;
-    }
-    .social-pill-item:hover, .nav-item:hover {
-      color: #ffffff !important;
-      text-shadow: 0 0 4px rgba(255,255,240,0.8);
-    }
-    /* active social icon: highlight with light background */
-    .social-pill-item.active-text {
-      background: rgba(255, 255, 255, 0.2) !important;
-      color: white !important;
-      transform: scale(1.1);
-      border-radius: 50%;
-    }
-    /* main pill sliding active indicator: white pill, text black */
-    .sliding-pill {
-      background: #ffffff !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-    }
-    .interactive-pill.active-text {
-      color: #0a0f1a !important;
-      font-weight: 700 !important;
-      text-shadow: none !important;
-    }
-    /* ----- FULLSCREEN CARDS (no gaps, each card = full viewport) ----- */
-    .sections-container {
-      margin-top: 100vh !important;
-      padding: 0 !important;
-      gap: 0 !important;
-    }
-    .section-card {
-      max-width: 100% !important;
-      width: 100% !important;
-      min-height: 100vh !important;
-      border-radius: 0 !important;
-      margin: 0 !important;
-      padding: 2rem 2rem !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      background: rgba(8, 12, 22, 0.75) !important;
-      backdrop-filter: blur(18px) !important;
-      box-shadow: none !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-      transition: background 0.25s, transform 0.2s;
-      scroll-margin-top: 0;
-    }
-    .section-card:hover {
-      background: rgba(12, 18, 30, 0.85) !important;
-      transform: translateY(0) !important;
-    }
-    /* Full width card content, maintain readability */
-    .section-card p, .section-card li {
-      max-width: 800px !important;
-    }
-    .section-card h2 {
-      margin-bottom: 1.2rem;
-      letter-spacing: -0.01em;
-    }
-    /* Buttons and interactive elements in dark */
-    .mock-btn {
-      background: rgba(255, 255, 255, 0.1) !important;
-      border: 1px solid rgba(255, 255, 255, 0.25) !important;
-      color: white !important;
-    }
-    .mock-btn:hover {
-      background: rgba(255, 255, 255, 0.25) !important;
-      transform: scale(0.98);
-      color: white !important;
-    }
-    .project-list li {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 0.5px solid rgba(255,255,255,0.2);
-    }
-    /* Make profile photo border adapt */
-    .profile-photo {
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 12px 24px -8px black;
-    }
-    /* override any leftover dark text inside compact on dark */
-    .profile-section.compact .profile-clear-text .greeting,
-    .profile-section.compact .profile-clear-text .fullname {
-      color: #f8fafc !important;
-    }
-    /* Ensure all links/buttons have white text */
-    .connect-buttons a, .social-pill-item, .nav-item {
-      color: #f1f5f9 !important;
-    }
-    /* Adjust mobile overrides to keep fullscreen cards fluid */
-    @media (max-width: 768px) {
-      .section-card {
-        padding: 2rem 1.2rem !important;
-        min-height: 100vh !important;
-      }
-      .section-card h2 {
-        font-size: 2rem !important;
-      }
-      .section-card p, .section-card li {
-        font-size: 1rem !important;
-      }
-      .sections-container {
-        margin-top: 100vh !important;
-      }
-    }
-    @media (max-width: 480px) {
-      .section-card {
-        padding: 1.8rem 1rem !important;
-        min-height: 100vh !important;
-        justify-content: center !important;
-      }
-      .section-card h2 {
-        font-size: 1.6rem !important;
-      }
-    }
-    /* preserve original intersection observer margins, just visual fullscreen */
-    .section-card {
-      scroll-margin-top: 0px;
-    }
-    /* slight glow for active pill text */
-    .interactive-pill.active-text {
-      text-shadow: 0 0 2px rgba(0,0,0,0.2);
-    }
-    /* keep all initial transition effects but background dark */
-    html {
-      scroll-behavior: smooth;
-    }
-  </style>
-  <!-- CONFETTI BACKGROUND STYLES (from codepen, adapted to work with existing layout) -->
-  <style>
-    /* Canvas background layer - fixed, behind all content, no pointer events */
-    #world {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      z-index: 0;
-      pointer-events: none;
-    }
-    /* Ensure body remains scrollable and canvas doesn't interfere */
-    body {
-      overflow-x: hidden;
-      overflow-y: auto;
-      background: #111; /* fallback behind canvas */
-    }
-  </style>
-  <!-- MAKE EVERYTHING 90% TRANSPARENT (preserve text readability) -->
-  <style>
-    /* Force 90% transparency on all background, border, and shadow layers */
-    .profile-section,
-    .profile-section.compact,
-    .social-pill-nav,
-    .pill-nav,
-    .section-card,
-    .mock-btn,
-    .project-list li,
-    .sliding-pill,
-    .social-pill-item.active-text {
-      background-color: rgba(0, 0, 0, 0.05) !important;
-      background: rgba(0, 0, 0, 0.05) !important;
-      border-color: rgba(255, 255, 255, 0.05) !important;
-      box-shadow: none !important;
-    }
-    /* Keep backdrop-filter but ensure base color is extremely transparent */
-    .profile-section.compact,
-    .social-pill-nav,
-    .pill-nav,
-    .section-card {
-      backdrop-filter: blur(2px) !important;
-    }
-    /* Specific overrides for fullscreen cards to use 10% opacity background */
-    .section-card {
-      background: rgba(8, 12, 22, 0.1) !important;
-    }
-    .section-card:hover {
-      background: rgba(12, 18, 30, 0.15) !important;
-    }
-    /* Profile compact */
-    .profile-section.compact {
-      background: rgba(10, 15, 25, 0.1) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-    /* Social & main pills */
-    .social-pill-nav, .pill-nav {
-      background: rgba(15, 20, 30, 0.1) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-    /* Sliding pill becomes very subtle */
-    .sliding-pill {
-      background: rgba(255, 255, 255, 0.2) !important;
-    }
-    /* Buttons and list items */
-    .mock-btn {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
-    .mock-btn:hover {
-      background: rgba(255, 255, 255, 0.1) !important;
-    }
-    .project-list li {
-      background: rgba(255, 255, 255, 0.05) !important;
-    }
-    /* Profile photo border */
-    .profile-photo {
-      border-color: rgba(255, 255, 255, 0.2) !important;
-      box-shadow: none !important;
-    }
-    /* Keep text fully opaque for readability */
-    body, .profile-clear-text, .section-card, .section-card *,
-    .social-pill-item, .nav-item, .mock-btn, .project-list li,
-    .profile-section.compact .profile-clear-text, .profile-clear-text .greeting,
-    .profile-clear-text .fullname,
-    .section-card h2, .section-card p, .section-card li {
-      color: #ffffff !important;
-      opacity: 1 !important;
-    }
-    /* Adjust active pill text contrast */
-    .interactive-pill.active-text {
-      color: #0a0f1a !important;
-      background: rgba(255, 255, 255, 0.3) !important;
-      border-radius: 100px;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -780,7 +18,7 @@
   <canvas id="world"></canvas>
 
   <div class="profile-section" id="profileSection">
-    <img class="profile-photo" src="pfp2.jpg" alt="Profile Photo">
+    <img class="profile-photo" src="WhatsApp%20Image%202026-06-11%20at%2011.04.01%20AM.jpeg" alt="Mayur Patil">
     <div class="profile-clear-text">
       <div class="greeting">hey i am</div>
       <div class="fullname">Mayur Patil</div>
@@ -789,12 +27,17 @@
 
   <!-- SOCIAL MEDIA PILL - ICONS ONLY -->
   <div class="social-pill-nav" id="socialPillNav">
-    <ul class="social-pill-group">
-      <li><a href="#" class="social-pill-item" data-social="github"><i class="fab fa-github"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="linkedin"><i class="fab fa-linkedin"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="twitter"><i class="fab fa-twitter"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="reddit"><i class="fab fa-reddit-alien"></i></a></li>
-      <li><a href="#" class="social-pill-item" data-social="instagram"><i class="fab fa-instagram"></i></a></li>
+    <button class="social-toggle-btn" id="socialToggleBtn" aria-label="Toggle Social Links">
+      <i class="fas fa-share-alt"></i>
+    </button>
+    <ul class="social-pill-group" id="socialPillGroup">
+      <li><a href="https://github.com" target="_blank" class="social-pill-item" data-tooltip="GitHub"><i class="fab fa-github"></i></a></li>
+      <li><a href="https://linkedin.com" target="_blank" class="social-pill-item" data-tooltip="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+      <li><a href="https://twitter.com" target="_blank" class="social-pill-item" data-tooltip="Twitter"><i class="fab fa-x-twitter"></i></a></li>
+      <li><a href="https://instagram.com" target="_blank" class="social-pill-item" data-tooltip="Instagram"><i class="fab fa-instagram"></i></a></li>
+      <li><a href="https://reddit.com" target="_blank" class="social-pill-item" data-tooltip="Reddit"><i class="fab fa-reddit-alien"></i></a></li>
+      <li><a href="https://leetcode.com" target="_blank" class="social-pill-item" data-tooltip="LeetCode"><i class="fas fa-code"></i></a></li>
+      <li><a href="mailto:mspatil.work@outlook.com" class="social-pill-item" data-tooltip="Email"><i class="fas fa-envelope"></i></a></li>
     </ul>
   </div>
 
@@ -804,335 +47,100 @@
     <ul class="pill-group">
       <li><a href="#" class="nav-item interactive-pill" data-section="section-mayur">Mayur Patil</a></li>
       <li><a href="#" class="nav-item interactive-pill" data-section="section-about">About</a></li>
-      <li><a href="#" class="nav-item interactive-pill" data-section="section-projects">Projects</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-projects">Projects & Skills</a></li>
       <li><a href="#" class="nav-item interactive-pill" data-section="section-connect">Let's Connect</a></li>
     </ul>
   </div>
 
   <div class="sections-container">
     <section id="section-mayur" class="section-card">
-      <h2>✨ Mayur Sanjay Patil</h2>
-      <p>Design enthusiast, full-stack creator, and minimalist coder. I believe in building experiences that feel like magic. Currently exploring interactive web animations and seamless UI.</p>
-      <p style="margin-top: 1rem;">📍 Based in India · 🎯 Building digital tools that inspire.</p>
+      <h2>Software engineer focused on full-stack development and machine learning.</h2>
+      <p style="margin-top: 1rem; line-height: 1.5;">I am a computer science student building intelligent web applications and data-driven systems. I combine backend engineering with predictive modeling to create practical software solutions.</p>
     </section>
+    
     <section id="section-about" class="section-card">
-      <h2>📖 About Me</h2>
-      <p>I'm Mayur, a passionate developer with 5+ years of crafting pixel-perfect interfaces. I blend design thinking with clean code. Outside tech, I love sketching, poetry, and long walks.</p>
-      <p style="margin-top: 0.8rem;">💡 Core values: Simplicity, clarity, and human-first design.</p>
-    </section>
-    <section id="section-projects" class="section-card">
-      <h2>🚀 Projects</h2>
-      <ul class="project-list">
-        <li>✨ Pill UI Library</li>
-        <li>🌿 GreenCanvas Studio</li>
-        <li>🎵 Moodify Player</li>
-        <li>📱 Pocket Notes AI</li>
+      <h2>About Me</h2>
+      <p style="margin-top: 1rem; line-height: 1.5;">I am currently pursuing a B.Tech in Computer Science and Engineering at PCET's Pimpri Chinchwad University with an 8.47 CGPA. My work centers on building scalable web applications, integrating machine learning models, and designing robust data pipelines. I focus on writing clean, maintainable code and solving complex technical problems across the stack. I am actively looking for software engineering roles where I can contribute to meaningful projects and continue expanding my technical expertise.</p>
+      
+      <h3 style="margin-top: 2rem; font-size: 1.3rem; margin-bottom: 0.8rem;">Certifications</h3>
+      <ul style="list-style-type: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.8rem; line-height: 1.4;">
+        <li><strong>IBM Machine Learning Professional Certificate:</strong> This certification validates practical skills in applying supervised and unsupervised learning techniques, deep learning, and time series analysis.</li>
+        <li><strong>Red Hat Application Development I:</strong> This credential demonstrates proficiency in building and deploying enterprise Java applications using standard Java EE specifications.</li>
+        <li><strong>Software Engineering Specialization:</strong> This program covers core software engineering practices including agile development, software architecture, and testing methodologies.</li>
+        <li><strong>Django Web Framework:</strong> This coursework establishes a strong foundation in building secure and scalable web applications using Python and the Django framework.</li>
       </ul>
-      <p style="margin-top: 1rem;">Each project is a playground for innovation — check out live demos soon.</p>
+
+      <h3 style="margin-top: 2rem; font-size: 1.3rem; margin-bottom: 0.8rem;">Achievements</h3>
+      <ul style="list-style-type: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.8rem; line-height: 1.4;">
+        <li><strong>Samsung Innovation Campus:</strong> Selected for a specialized training program in Python, coding, and data analysis organized by Samsung and the Telecom Sector Skill Council. This experience provided practical exposure to industry-standard data processing workflows.</li>
+        <li><strong>GSoC 2026:</strong> Submitted a technical proposal for the GIMP open-source project focused on image segmentation improvements. The proposal detailed strategies for SLIC superpixels integration, Paint Select stabilization, and Foreground Select bug fixes.</li>
+        <li><strong>Code4Society Hackathon:</strong> Participated in a 3-day technical hackathon hosted by PCU, ACM, and IEEE. Received recognition for effective technical problem-solving and clear project presentation.</li>
+      </ul>
     </section>
+    
+    <section id="section-projects" class="section-card">
+      <h2>Projects & Skills</h2>
+      
+      <h3 style="margin-top: 1rem; font-size: 1.3rem; margin-bottom: 0.8rem;">Technical Skills</h3>
+      <ul style="list-style-type: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; line-height: 1.4;">
+        <li><strong>Languages:</strong> My core programming foundation spans Python, Java, JavaScript, and C/C++ for developing diverse software applications.</li>
+        <li><strong>Frameworks and Libraries:</strong> I build robust full-stack applications and data pipelines using Django, Spring, React, LangChain, and data science libraries like Pandas and Scikit-learn.</li>
+        <li><strong>Machine Learning:</strong> I design and train predictive models involving regression, classification, clustering, Neural Networks, and Recommender Systems.</li>
+        <li><strong>Databases and Tools:</strong> I manage data and development workflows utilizing PostgreSQL, MySQL, MongoDB, FAISS, Git, and VS Code.</li>
+      </ul>
+
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.8rem;">Featured Projects</h3>
+      <ul class="project-list" style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1.5rem; padding-left: 0; list-style-type: none;">
+        <li>
+          <strong>Mini Data Virtualization Proxy</strong>
+          <p style="margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.5;">A Java-based proxy server that aggregates data across multiple MySQL tables to deliver a unified JSON response. The system uses HashMaps for efficient in-memory data joining and relies on strict object-oriented principles to ensure maintainability. It incorporates extensive exception handling to support reliable scalability and streamline debugging.</p>
+          <p style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8;">Tech Stack: Java, MySQL</p>
+        </li>
+        <li>
+          <strong>Eco-Metric Data Aggregation Dashboard</strong>
+          <p style="margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.5;">A full-stack analytics platform designed to visualize real-time carbon footprint and CO2 metrics for business intelligence reporting. The backend is powered by Java REST APIs that interface with a MySQL database, while the frontend uses React and charting libraries to render dynamic data visualizations.</p>
+          <p style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8;">Tech Stack: Java, REST APIs, React, MySQL</p>
+        </li>
+        <li>
+          <strong>Sentiment Analyzer</strong>
+          <p style="margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.5;">A real-time text classification application that processes IMDB-style reviews to determine positive or negative sentiment. The backend is built with Python and Django, utilizing a pre-trained scikit-learn model serialized via joblib for efficient inference. Data storage and schema management are handled through SQLite and Django migrations.</p>
+          <p style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8;">Tech Stack: Python, Django, Scikit-learn, SQLite, Joblib</p>
+        </li>
+        <li>
+          <strong>RAG-Based Codebase Assistant</strong>
+          <p style="margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.5;">An AI-powered developer tool that enables natural language querying of codebases to support agentic coding workflows. The system integrates LangChain and the Claude API with a FAISS vector store and sentence-transformers for accurate context retrieval. The user interface is built using Streamlit for rapid interaction and testing.</p>
+          <p style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8;">Tech Stack: Python, LangChain, FAISS, Sentence-transformers, Claude API, Streamlit</p>
+        </li>
+        <li>
+          <strong>Carbon Footprint Estimator</strong>
+          <p style="margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.5;">A web application that calculates personal carbon footprints using India-specific emission factors and diet categories. It integrates the Claude API to analyze user input and generate personalized, AI-driven advice for reducing emissions. The application logic and routing are managed entirely through the Django framework.</p>
+          <p style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8;">Tech Stack: Python, Django, Claude API</p>
+        </li>
+        <li>
+          <strong>Crop Recommendation System</strong>
+          <p style="margin-top: 0.4rem; font-size: 0.95rem; line-height: 1.5;">A machine learning solution that recommends optimal crops based on environmental parameters like soil composition and weather conditions. The core model utilizes a Random Forest classifier to analyze input features and predict outcomes. The system achieves approximately 99 percent accuracy in its crop recommendations.</p>
+          <p style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.8;">Tech Stack: Python, Scikit-learn, Random Forest, Pandas, NumPy</p>
+        </li>
+      </ul>
+    </section>
+    
     <section id="section-connect" class="section-card">
-      <h2>🤝 Let's Connect</h2>
-      <p>Open for collaborations, freelance, or just a tech chat! Reach me via socials or email.</p>
-      <div class="connect-buttons">
-        <a href="#" class="mock-btn"><i class="fab fa-github"></i> GitHub</a>
-        <a href="#" class="mock-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
-        <a href="#" class="mock-btn"><i class="fas fa-envelope"></i> Mail</a>
+      <h2>Let's Connect</h2>
+      <p style="margin-top: 1rem; line-height: 1.5;">I am always open to discussing software engineering opportunities, technical collaborations, or open-source projects. You can review my code on GitHub or contact me directly via email to start a conversation.</p>
+      <div class="connect-buttons" style="margin-top: 1.5rem;">
+        <a href="https://github.com/MaybeUrMayur" target="_blank" class="mock-btn"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://leetcode.com" target="_blank" class="mock-btn"><i class="fas fa-code"></i> LeetCode</a>
+        <a href="mailto:mspatil.work@outlook.com" class="mock-btn"><i class="fas fa-envelope"></i> Mail</a>
       </div>
     </section>
   </div>
 
-  <!-- Existing portfolio scripts (unchanged) -->
-  <script>
-    (function() {
-      // ------------------- MAIN PILL (unchanged) -------------------
-      const pillContainer = document.getElementById("mainPillNav");
-      const slidingPill = document.getElementById("slidingPill");
-      const navBtns = Array.from(document.querySelectorAll("#mainPillNav .interactive-pill"));
-      let currentActiveBtn = null;
-      let ignoreScrollUpdates = false;
-      let scrollTimeout = null;
+  <!-- VISITOR COUNT PILL -->
+  <div class="visitor-pill" id="visitorPill" data-tooltip="visitor count 1425">
+    <i class="fas fa-eye"></i>
+    <span id="visitorCountText">1425</span>
+  </div>
 
-      function getRelativeRect(btn) {
-        const containerRect = pillContainer.getBoundingClientRect();
-        const btnRect = btn.getBoundingClientRect();
-        return { left: btnRect.left - containerRect.left, top: btnRect.top - containerRect.top, width: btnRect.width, height: btnRect.height };
-      }
-
-      function movePillTo(targetBtn, withTransition = true) {
-        if (!targetBtn) return;
-        const rect = getRelativeRect(targetBtn);
-        if (!withTransition) slidingPill.style.transition = "none";
-        slidingPill.style.width = rect.width + "px";
-        slidingPill.style.height = rect.height + "px";
-        slidingPill.style.transform = `translate(${rect.left}px, ${rect.top}px)`;
-        if (!withTransition) {
-          void slidingPill.offsetHeight;
-          slidingPill.style.transition = "transform 0.38s cubic-bezier(0.2, 0.85, 0.4, 1), width 0.38s cubic-bezier(0.2, 0.85, 0.4, 1)";
-        }
-        navBtns.forEach(btn => btn.classList.remove("active-text"));
-        targetBtn.classList.add("active-text");
-        currentActiveBtn = targetBtn;
-      }
-
-      if (navBtns.length) {
-        currentActiveBtn = navBtns[0];
-        movePillTo(navBtns[0], false);
-      }
-
-      function smoothScrollToSection(sectionId, btn) {
-        const targetSection = document.getElementById(sectionId);
-        if (!targetSection) return;
-        ignoreScrollUpdates = true;
-        if (scrollTimeout) clearTimeout(scrollTimeout);
-        targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
-        const finishScroll = () => {
-          ignoreScrollUpdates = false;
-          updateActivePillFromScroll();
-          scrollTimeout = null;
-        };
-        if ('onscrollend' in window) {
-          window.addEventListener('scrollend', () => { if (ignoreScrollUpdates) finishScroll(); }, { once: true });
-        } else {
-          scrollTimeout = setTimeout(finishScroll, 600);
-        }
-        if (currentActiveBtn !== btn) {
-          movePillTo(btn, true);
-          btn.focus({ preventScroll: true });
-          btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-        }
-      }
-
-      navBtns.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          const sectionId = btn.getAttribute("data-section");
-          if (sectionId) smoothScrollToSection(sectionId, btn);
-          else if (currentActiveBtn !== btn) {
-            movePillTo(btn, true);
-            btn.focus({ preventScroll: true });
-            btn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-          }
-        });
-      });
-
-      let resizeTimer;
-      window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => { if (currentActiveBtn) movePillTo(currentActiveBtn, true); }, 100);
-      });
-      if (window.ResizeObserver) {
-        new ResizeObserver(() => { if (currentActiveBtn) movePillTo(currentActiveBtn, true); }).observe(pillContainer);
-      }
-
-      // ------------------- SOCIAL PILL (static, icons only) -------------------
-      const socialBtns = document.querySelectorAll("#socialPillNav .social-pill-item");
-      let activeSocial = null;
-
-      if (socialBtns.length) {
-        socialBtns[0].classList.add("active-text");
-        activeSocial = socialBtns[0];
-      }
-
-      socialBtns.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (activeSocial === btn) return;
-          socialBtns.forEach(b => b.classList.remove("active-text"));
-          btn.classList.add("active-text");
-          activeSocial = btn;
-        });
-      });
-
-      // ------------------- SCROLL SYNC (profile compact + main pill) -------------------
-      const profileSection = document.getElementById("profileSection");
-      const sectionsData = [
-        { id: "section-mayur", btnText: "Mayur Patil" },
-        { id: "section-about", btnText: "About" },
-        { id: "section-projects", btnText: "Projects" },
-        { id: "section-connect", btnText: "Let's Connect" }
-      ];
-
-      function updateActivePillFromScroll() {
-        if (ignoreScrollUpdates) return;
-        let bestSection = null;
-        let maxVisibility = 0;
-        for (let sec of sectionsData) {
-          const element = document.getElementById(sec.id);
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-            const totalHeight = rect.height;
-            const visibilityRatio = totalHeight > 0 ? Math.max(0, visibleHeight / totalHeight) : 0;
-            if (visibilityRatio > maxVisibility) {
-              maxVisibility = visibilityRatio;
-              bestSection = sec;
-            }
-          }
-        }
-        if (bestSection && maxVisibility > 0.2) {
-          const targetBtn = navBtns.find(btn => btn.getAttribute("data-section") === bestSection.id);
-          if (targetBtn && currentActiveBtn !== targetBtn) {
-            movePillTo(targetBtn, true);
-            currentActiveBtn = targetBtn;
-          }
-        }
-      }
-
-      function handleProfileCompact() {
-        const scrollAmount = window.scrollY;
-        if (scrollAmount > 50) {
-          if (!profileSection.classList.contains("compact")) profileSection.classList.add("compact");
-        } else {
-          if (profileSection.classList.contains("compact")) profileSection.classList.remove("compact");
-        }
-      }
-
-      const observer = new IntersectionObserver((entries) => {
-        if (ignoreScrollUpdates) return;
-        let visibleSections = [];
-        for (let entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.25) visibleSections.push(entry.target.id);
-        }
-        if (visibleSections.length) {
-          const mostVisible = visibleSections[0];
-          const matchedSection = sectionsData.find(s => s.id === mostVisible);
-          if (matchedSection) {
-            const matchedBtn = navBtns.find(btn => btn.getAttribute("data-section") === matchedSection.id);
-            if (matchedBtn && currentActiveBtn !== matchedBtn) {
-              movePillTo(matchedBtn, true);
-              currentActiveBtn = matchedBtn;
-            }
-          }
-        } else {
-          updateActivePillFromScroll();
-        }
-      }, { threshold: 0.3, rootMargin: "-20% 0px -30% 0px" });
-
-      sectionsData.forEach(sec => {
-        const el = document.getElementById(sec.id);
-        if (el) observer.observe(el);
-      });
-
-      window.addEventListener("scroll", () => {
-        handleProfileCompact();
-        if (!ignoreScrollUpdates) updateActivePillFromScroll();
-      });
-      
-      handleProfileCompact();
-      updateActivePillFromScroll();
-      updateSocialCollapse();
-
-      window.addEventListener("load", () => {
-        updateActivePillFromScroll();
-        handleProfileCompact();
-        updateSocialCollapse();
-      });
-      
-      window.dispatchEvent(new Event('resize'));
-    })();
-  </script>
-
-  <!-- CONFETTI BACKGROUND SCRIPT (from codepen, integrated as-is) -->
-  <script>
-    (function() {
-      // Ensure canvas exists
-      const canvas = document.getElementById("world");
-      if (!canvas) return;
-      const context = canvas.getContext("2d");
-      
-      // Configuration from original codepen
-      const NUM_CONFETTI = 350;
-      const COLORS = [[85,71,106], [174,61,99], [219,56,83], [244,92,68], [248,182,70]];
-      const PI_2 = 2 * Math.PI;
-      
-      let w = 0, h = 0;
-      let xpos = 0.5;
-      
-      function resizeWindow() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-      }
-      
-      window.addEventListener('resize', resizeWindow, false);
-      
-      function range(a, b) {
-        return (b - a) * Math.random() + a;
-      }
-      
-      function drawCircle(x, y, r, style) {
-        context.beginPath();
-        context.arc(x, y, r, 0, PI_2, false);
-        context.fillStyle = style;
-        context.fill();
-      }
-      
-      class Confetti {
-        constructor() {
-          this.style = COLORS[~~range(0, COLORS.length)];
-          this.rgb = `rgba(${this.style[0]},${this.style[1]},${this.style[2]}`;
-          this.r = ~~range(2, 6);
-          this.r2 = 2 * this.r;
-          this.replace();
-        }
-        
-        replace() {
-          this.opacity = 0;
-          this.dop = 0.03 * range(1, 4);
-          this.x = range(-this.r2, w - this.r2);
-          this.y = range(-20, h - this.r2);
-          this.xmax = w - this.r;
-          this.ymax = h - this.r;
-          this.vx = range(0, 2) + 8 * xpos - 5;
-          this.vy = 0.7 * this.r + range(-1, 1);
-        }
-        
-        draw() {
-          this.x += this.vx;
-          this.y += this.vy;
-          this.opacity += this.dop;
-          if (this.opacity > 1) {
-            this.opacity = 1;
-            this.dop *= -1;
-          }
-          if (this.opacity < 0 || this.y > this.ymax) {
-            this.replace();
-          }
-          if (!(0 < this.x && this.x < this.xmax)) {
-            this.x = (this.x + this.xmax) % this.xmax;
-          }
-          drawCircle(~~this.x, ~~this.y, this.r, `${this.rgb},${this.opacity})`);
-        }
-      }
-      
-      let confetti = [];
-      for (let i = 1; i <= NUM_CONFETTI; i++) {
-        confetti.push(new Confetti());
-      }
-      
-      function step() {
-        requestAnimationFrame(step);
-        // Clear canvas with dark background (matching original codepen style)
-        context.fillStyle = "#111";
-        context.fillRect(0, 0, w, h);
-        for (let c of confetti) {
-          c.draw();
-        }
-      }
-      
-      // Mouse move handler for xpos
-      document.onmousemove = function(e) {
-        xpos = e.pageX / w;
-      };
-      
-      // Initialize and start animation after window load and resize
-      window.addEventListener('load', function() {
-        resizeWindow();
-        step();
-      });
-      
-      // Initial resize to set dimensions
-      resizeWindow();
-    })();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
