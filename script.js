@@ -271,24 +271,6 @@
       resizeWindow();
     })();
 
-    // ------------------- VISITOR COUNT -------------------
-    (function() {
-      const visitorPill = document.getElementById("visitorPill");
-      const visitorCountText = document.getElementById("visitorCountText");
-      if (visitorPill && visitorCountText) {
-        let count = parseInt(localStorage.getItem("portfolioVisits") || "0", 10);
-        
-        // Only increment if they are a new visitor
-        if (!localStorage.getItem("portfolioHasVisited")) {
-          count++;
-          localStorage.setItem("portfolioVisits", count);
-          localStorage.setItem("portfolioHasVisited", "true");
-        }
-        
-        visitorCountText.textContent = count;
-        visitorPill.setAttribute("data-tooltip", `visitor count ${count}`);
-      }
-    })();
 
     // ------------------- SCROLL ANIMATION EFFECT -------------------
     (function() {
@@ -493,56 +475,3 @@
       });
     })();
 
-    // ------------------- LIVE VISITOR COUNTER -------------------
-    (function() {
-      const visitorCountText = document.getElementById('visitorCountText');
-      const visitorPill = document.getElementById('visitorPill');
-      const BASE_COUNT = 1425; // Preserve your existing visitor count!
-      
-      if (visitorCountText) {
-        // Only increment the global counter if this device hasn't visited before
-        const hasVisited = localStorage.getItem('hasVisited');
-        const endpoint = hasVisited 
-          ? 'https://api.counterapi.dev/v1/MaybeUrMayur/portfolio' // Read-only
-          : 'https://api.counterapi.dev/v1/MaybeUrMayur/portfolio/up'; // Increment
-          
-        if (!hasVisited) {
-          localStorage.setItem('hasVisited', 'true');
-        }
-
-        fetch(endpoint)
-          .then(response => response.json())
-          .then(data => {
-            const totalViews = BASE_COUNT + data.count;
-            
-            // Animate the counter roll-up for a premium feel
-            let currentDisplay = BASE_COUNT;
-            const target = totalViews;
-            const duration = 1500;
-            const frameRate = 30;
-            const totalFrames = Math.round((duration / 1000) * frameRate);
-            const increment = (target - currentDisplay) / totalFrames;
-            
-            if (target <= currentDisplay) {
-              // No animation needed if target is identical to base
-              visitorCountText.textContent = target;
-              if (visitorPill) visitorPill.setAttribute('data-tooltip', `visitor count ${target}`);
-              return;
-            }
-            
-            const counterInterval = setInterval(() => {
-              currentDisplay += increment;
-              if (currentDisplay >= target) {
-                currentDisplay = target;
-                clearInterval(counterInterval);
-              }
-              const displayVal = Math.round(currentDisplay);
-              visitorCountText.textContent = displayVal;
-              if (visitorPill) visitorPill.setAttribute('data-tooltip', `visitor count ${displayVal}`);
-            }, 1000 / frameRate);
-          })
-          .catch(err => {
-            console.error('Error fetching visitor count:', err);
-          });
-      }
-    })();
