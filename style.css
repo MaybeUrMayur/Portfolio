@@ -426,6 +426,9 @@
     }
 
     @media (max-width: 768px) {
+      #world {
+        display: none !important;
+      }
       body {
         background: #000000 !important;
       }
