@@ -182,7 +182,7 @@
       const context = canvas.getContext("2d");
       
       // Optimize particle count for mobile devices
-      const NUM_CONFETTI = window.innerWidth < 768 ? 100 : 300;
+      const NUM_CONFETTI = window.innerWidth < 768 ? 20 : 300;
       const COLORS = [[255, 255, 255]];
       const PI_2 = 2 * Math.PI;
       
@@ -426,6 +426,10 @@
               startTime: now
             });
           }
+          
+          if (!this.animationId) {
+            this.startAnimation();
+          }
         }
         
         drawLoop(currentTime) {
@@ -460,7 +464,12 @@
           }
           
           this.sparks = remainingSparks;
-          this.animationId = requestAnimationFrame(this.drawLoop);
+          // Only continue the animation loop if there are sparks to render
+          if (this.sparks.length > 0) {
+            this.animationId = requestAnimationFrame(this.drawLoop);
+          } else {
+            this.animationId = null;
+          }
         }
         
         startAnimation() {

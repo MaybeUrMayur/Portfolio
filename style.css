@@ -426,6 +426,13 @@
     }
 
     @media (max-width: 768px) {
+      /* Mobile Performance Overrides: Disable heavy blur filters */
+      .animated-item .blur-word,
+      .social-pill-group li {
+        filter: none !important;
+        will-change: transform, opacity !important;
+      }
+      
       .profile-section.compact {
         display: flex !important;
         height: 48px;
