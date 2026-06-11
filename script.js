@@ -162,7 +162,7 @@
       window.addEventListener("scroll", () => {
         handleProfileCompact();
         if (!ignoreScrollUpdates) updateActivePillFromScroll();
-      });
+      }, { passive: true });
       
       handleProfileCompact();
       updateActivePillFromScroll();
@@ -181,7 +181,8 @@
       if (!canvas) return;
       const context = canvas.getContext("2d");
       
-      const NUM_CONFETTI = 350;
+      // Optimize particle count for mobile devices
+      const NUM_CONFETTI = window.innerWidth < 768 ? 100 : 300;
       const COLORS = [[255, 255, 255]];
       const PI_2 = 2 * Math.PI;
       
@@ -193,7 +194,7 @@
         h = canvas.height = window.innerHeight;
       }
       
-      window.addEventListener('resize', resizeWindow, false);
+      window.addEventListener('resize', resizeWindow, { passive: true });
       
       function range(a, b) {
         return (b - a) * Math.random() + a;
@@ -258,9 +259,9 @@
         }
       }
       
-      document.onmousemove = function(e) {
+      document.addEventListener('mousemove', function(e) {
         xpos = e.pageX / w;
-      };
+      }, { passive: true });
       
       window.addEventListener('load', function() {
         resizeWindow();
@@ -296,17 +297,186 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
+            entry.target.classList.remove('hidden-top');
           } else {
-            // Optional: remove visible class if you want them to animate out when scrolling away
             entry.target.classList.remove('visible');
+            // If the element is above the middle of the screen, it exited the top
+            if (entry.boundingClientRect.top < window.innerHeight / 2) {
+              entry.target.classList.add('hidden-top');
+            } else {
+              // Exited the bottom
+              entry.target.classList.remove('hidden-top');
+            }
           }
         });
       }, { threshold: 0.1 });
+
+      // Helper to split text into words and wrap them with staggered delays
+      function applyWordByWordEffect(container) {
+        if (container.classList.contains('word-effect-applied')) return;
+        container.classList.add('word-effect-applied');
+        
+        let wordIndex = 0;
+        
+        function processNode(node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.nodeValue;
+            if (!text.trim()) return;
+            
+            const fragment = document.createDocumentFragment();
+            const parts = text.split(/(\s+)/);
+            parts.forEach(part => {
+              if (!part) return;
+              if (/^\s+$/.test(part)) {
+                fragment.appendChild(document.createTextNode(part));
+              } else {
+                const span = document.createElement('span');
+                span.className = 'blur-word';
+                span.style.transitionDelay = `${Math.min(wordIndex * 25, 800)}ms`; // Cap delay to avoid excessive waits
+                span.textContent = part;
+                fragment.appendChild(span);
+                wordIndex++;
+              }
+            });
+            node.parentNode.replaceChild(fragment, node);
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            if (node.tagName === 'SCRIPT' || node.classList.contains('blur-word') || node.tagName === 'I') return;
+            Array.from(node.childNodes).forEach(processNode);
+          }
+        }
+        
+        Array.from(container.childNodes).forEach(processNode);
+      }
 
       // 2. Select individual paragraphs, headings, and list items and observe them
       const items = document.querySelectorAll('.section-card p, .section-card h2, .section-card h3, .section-card li');
       items.forEach(item => {
         item.classList.add('animated-item');
+        applyWordByWordEffect(item);
         observer.observe(item);
+      });
+    })();
+
+    // ------------------- CLICK SPARK EFFECT -------------------
+    (function() {
+      class ClickSparkEffect {
+        constructor(options = {}) {
+          this.sparkColor = options.sparkColor || '#ffffff';
+          this.sparkSize = options.sparkSize ?? 10;
+          this.sparkRadius = options.sparkRadius ?? 15;
+          this.sparkCount = options.sparkCount ?? 8;
+          this.duration = options.duration ?? 400;
+          this.easing = options.easing || 'ease-out';
+          this.extraScale = options.extraScale ?? 1.0;
+          
+          this.sparks = [];
+          this.animationId = null;
+          this.canvas = null;
+          this.ctx = null;
+          
+          this.handleClick = this.handleClick.bind(this);
+          this.drawLoop = this.drawLoop.bind(this);
+          this.resizeCanvas = this.resizeCanvas.bind(this);
+          
+          this.initCanvas();
+          window.addEventListener('resize', this.resizeCanvas);
+          document.addEventListener('click', this.handleClick);
+          this.startAnimation();
+        }
+        
+        initCanvas() {
+          this.canvas = document.createElement('canvas');
+          this.canvas.style.position = 'fixed';
+          this.canvas.style.top = '0px';
+          this.canvas.style.left = '0px';
+          this.canvas.style.width = '100vw';
+          this.canvas.style.height = '100vh';
+          this.canvas.style.pointerEvents = 'none';
+          this.canvas.style.zIndex = '99999';
+          document.body.appendChild(this.canvas);
+          this.ctx = this.canvas.getContext('2d');
+          this.resizeCanvas();
+        }
+        
+        resizeCanvas() {
+          this.canvas.width = window.innerWidth;
+          this.canvas.height = window.innerHeight;
+        }
+        
+        easeFunction(t) {
+          switch (this.easing) {
+            case 'linear': return t;
+            case 'ease-in': return t * t;
+            case 'ease-in-out': return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+            default: return t * (2 - t);
+          }
+        }
+        
+        handleClick(e) {
+          let x = e.clientX;
+          let y = e.clientY;
+          const now = performance.now();
+          const angleStep = (2 * Math.PI) / this.sparkCount;
+          
+          for (let i = 0; i < this.sparkCount; i++) {
+            this.sparks.push({
+              x: x,
+              y: y,
+              angle: angleStep * i,
+              startTime: now
+            });
+          }
+        }
+        
+        drawLoop(currentTime) {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          const remainingSparks = [];
+          
+          for (let i = 0; i < this.sparks.length; i++) {
+            const spark = this.sparks[i];
+            const elapsed = currentTime - spark.startTime;
+            
+            if (elapsed >= this.duration) continue;
+            
+            remainingSparks.push(spark);
+            const progress = elapsed / this.duration;
+            const eased = this.easeFunction(progress);
+            
+            const distance = eased * this.sparkRadius * this.extraScale;
+            const lineLength = this.sparkSize * (1 - eased);
+            
+            const startX = spark.x + distance * Math.cos(spark.angle);
+            const startY = spark.y + distance * Math.sin(spark.angle);
+            const endX = spark.x + (distance + lineLength) * Math.cos(spark.angle);
+            const endY = spark.y + (distance + lineLength) * Math.sin(spark.angle);
+            
+            this.ctx.beginPath();
+            this.ctx.moveTo(startX, startY);
+            this.ctx.lineTo(endX, endY);
+            this.ctx.strokeStyle = this.sparkColor;
+            this.ctx.lineWidth = 2;
+            this.ctx.lineCap = 'round';
+            this.ctx.stroke();
+          }
+          
+          this.sparks = remainingSparks;
+          this.animationId = requestAnimationFrame(this.drawLoop);
+        }
+        
+        startAnimation() {
+          if (this.animationId) cancelAnimationFrame(this.animationId);
+          this.animationId = requestAnimationFrame(this.drawLoop);
+        }
+      }
+
+      // Initialize the spark effect globally
+      new ClickSparkEffect({
+        sparkColor: '#ffffff',
+        sparkSize: 10,
+        sparkRadius: 15,
+        sparkCount: 8,
+        duration: 400,
+        easing: 'ease-out',
+        extraScale: 1.0
       });
     })();

@@ -8,8 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,500&display=swap" rel="stylesheet">
+  
+  <!-- Preload critical image for faster LCP -->
+  <link rel="preload" href="src/WhatsApp%20Image%202026-06-11%20at%2011.04.01%20AM.jpeg" as="image">
+
   <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,7 +24,7 @@
   <canvas id="world"></canvas>
 
   <div class="profile-section" id="profileSection">
-    <img class="profile-photo" src="WhatsApp%20Image%202026-06-11%20at%2011.04.01%20AM.jpeg" alt="Mayur Patil">
+    <img class="profile-photo" src="src/WhatsApp%20Image%202026-06-11%20at%2011.04.01%20AM.jpeg" alt="Mayur Patil">
     <div class="profile-clear-text">
       <div class="greeting">hey i am</div>
       <div class="fullname">Mayur Patil</div>
@@ -31,12 +37,12 @@
       <i class="fas fa-share-alt"></i>
     </button>
     <ul class="social-pill-group" id="socialPillGroup">
-      <li><a href="https://github.com" target="_blank" class="social-pill-item" data-tooltip="GitHub"><i class="fab fa-github"></i></a></li>
-      <li><a href="https://linkedin.com" target="_blank" class="social-pill-item" data-tooltip="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
-      <li><a href="https://twitter.com" target="_blank" class="social-pill-item" data-tooltip="Twitter"><i class="fab fa-x-twitter"></i></a></li>
-      <li><a href="https://instagram.com" target="_blank" class="social-pill-item" data-tooltip="Instagram"><i class="fab fa-instagram"></i></a></li>
-      <li><a href="https://reddit.com" target="_blank" class="social-pill-item" data-tooltip="Reddit"><i class="fab fa-reddit-alien"></i></a></li>
-      <li><a href="https://leetcode.com" target="_blank" class="social-pill-item" data-tooltip="LeetCode"><i class="fas fa-code"></i></a></li>
+      <li><a href="https://github.com/MaybeUrMayur" target="_blank" class="social-pill-item" data-tooltip="GitHub"><i class="fab fa-github"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/mayur-patil34/" target="_blank" class="social-pill-item" data-tooltip="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+      <li><a href="https://x.com/MaybeUrMayur" target="_blank" class="social-pill-item" data-tooltip="Twitter"><i class="fab fa-x-twitter"></i></a></li>
+      <li><a href="https://www.instagram.com/maybeurmayur/" target="_blank" class="social-pill-item" data-tooltip="Instagram"><i class="fab fa-instagram"></i></a></li>
+      <li><a href="https://www.reddit.com/user/MaybeUrMayur/" target="_blank" class="social-pill-item" data-tooltip="Reddit"><i class="fab fa-reddit-alien"></i></a></li>
+      <li><a href="https://leetcode.com/u/MaybeUrMayur/" target="_blank" class="social-pill-item" data-tooltip="LeetCode"><i class="fas fa-code"></i></a></li>
       <li><a href="mailto:mspatil.work@outlook.com" class="social-pill-item" data-tooltip="Email"><i class="fas fa-envelope"></i></a></li>
     </ul>
   </div>
@@ -47,8 +53,8 @@
     <ul class="pill-group">
       <li><a href="#" class="nav-item interactive-pill" data-section="section-mayur">Mayur Patil</a></li>
       <li><a href="#" class="nav-item interactive-pill" data-section="section-about">About</a></li>
-      <li><a href="#" class="nav-item interactive-pill" data-section="section-projects">Projects & Skills</a></li>
-      <li><a href="#" class="nav-item interactive-pill" data-section="section-connect">Let's Connect</a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-projects">Projects<span class="hide-mobile"> & Skills</span></a></li>
+      <li><a href="#" class="nav-item interactive-pill" data-section="section-connect"><span class="hide-mobile">Let's </span>Connect</a></li>
     </ul>
   </div>
 
@@ -73,7 +79,6 @@
       <h3 style="margin-top: 2rem; font-size: 1.3rem; margin-bottom: 0.8rem;">Achievements</h3>
       <ul style="list-style-type: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.8rem; line-height: 1.4;">
         <li><strong>Samsung Innovation Campus:</strong> Selected for a specialized training program in Python, coding, and data analysis organized by Samsung and the Telecom Sector Skill Council. This experience provided practical exposure to industry-standard data processing workflows.</li>
-        <li><strong>GSoC 2026:</strong> Submitted a technical proposal for the GIMP open-source project focused on image segmentation improvements. The proposal detailed strategies for SLIC superpixels integration, Paint Select stabilization, and Foreground Select bug fixes.</li>
         <li><strong>Code4Society Hackathon:</strong> Participated in a 3-day technical hackathon hosted by PCU, ACM, and IEEE. Received recognition for effective technical problem-solving and clear project presentation.</li>
       </ul>
     </section>
@@ -129,7 +134,7 @@
       <p style="margin-top: 1rem; line-height: 1.5;">I am always open to discussing software engineering opportunities, technical collaborations, or open-source projects. You can review my code on GitHub or contact me directly via email to start a conversation.</p>
       <div class="connect-buttons" style="margin-top: 1.5rem;">
         <a href="https://github.com/MaybeUrMayur" target="_blank" class="mock-btn"><i class="fab fa-github"></i> GitHub</a>
-        <a href="https://leetcode.com" target="_blank" class="mock-btn"><i class="fas fa-code"></i> LeetCode</a>
+        <a href="https://leetcode.com/u/MaybeUrMayur/" target="_blank" class="mock-btn"><i class="fas fa-code"></i> LeetCode</a>
         <a href="mailto:mspatil.work@outlook.com" class="mock-btn"><i class="fas fa-envelope"></i> Mail</a>
       </div>
     </section>
@@ -141,6 +146,6 @@
     <span id="visitorCountText">1425</span>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
