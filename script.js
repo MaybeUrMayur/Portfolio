@@ -252,8 +252,7 @@
       
       function step() {
         requestAnimationFrame(step);
-        if (window.innerWidth < 768) return;
-        context.fillStyle = "#111";
+        context.fillStyle = window.innerWidth < 768 ? "#000" : "#111";
         context.fillRect(0, 0, w, h);
         for (let c of confetti) {
           c.draw();
@@ -335,10 +334,8 @@
       const items = document.querySelectorAll('.section-card p, .section-card h2, .section-card h3, .section-card li');
       items.forEach(item => {
         item.classList.add('animated-item');
-        // Only apply expensive word-by-word splitting on desktop
-        if (window.innerWidth >= 768) {
-          applyWordByWordEffect(item);
-        }
+        // Apply word-by-word splitting on all screen sizes
+        applyWordByWordEffect(item);
         observer.observe(item);
       });
     })();
@@ -399,7 +396,6 @@
         }
         
         handleClick(e) {
-          if (window.innerWidth < 768) return;
           let x = e.clientX;
           let y = e.clientY;
           const now = performance.now();
