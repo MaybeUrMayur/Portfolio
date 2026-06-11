@@ -252,8 +252,8 @@
       
       function step() {
         requestAnimationFrame(step);
-        if (window.innerWidth < 768) return;
-        context.fillStyle = window.innerWidth < 768 ? "#000" : "#111";
+        if (window.innerWidth <= 1024) return;
+        context.fillStyle = window.innerWidth <= 1024 ? "#000" : "#111";
         context.fillRect(0, 0, w, h);
         for (let c of confetti) {
           c.draw();
