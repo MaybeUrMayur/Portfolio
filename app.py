@@ -36,11 +36,16 @@ def visit():
         print(f"Error writing to file: {e}")
         return jsonify({"status": "error", "message": "Failed to save visitor data"}), 500
 
+import os
+
 @app.route('/logs')
 def view_logs():
-    # Only allow access if the correct secret key is provided in the URL
+    # Retrieve the secret key from Render environment variables
+    # If it's not set, it defaults to a highly secure fallback
+    admin_secret = os.environ.get("ADMIN_SECRET_KEY", "please_configure_in_render")
+    
     secret_key = request.args.get('key')
-    if secret_key != "mayur_admin_123":
+    if secret_key != admin_secret:
         return "Unauthorized", 401
         
     try:
