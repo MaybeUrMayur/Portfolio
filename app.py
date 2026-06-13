@@ -36,5 +36,20 @@ def visit():
         print(f"Error writing to file: {e}")
         return jsonify({"status": "error", "message": "Failed to save visitor data"}), 500
 
+@app.route('/logs')
+def view_logs():
+    # Only allow access if the correct secret key is provided in the URL
+    secret_key = request.args.get('key')
+    if secret_key != "mayur_admin_123":
+        return "Unauthorized", 401
+        
+    try:
+        with open('visitors.txt', 'r', encoding='utf-8') as f:
+            content = f.read()
+        # Return as plain text so it looks like a text file in the browser
+        return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+    except FileNotFoundError:
+        return "No visitors yet.", 200
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
