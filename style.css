@@ -842,14 +842,15 @@
 
     @media (max-width: 768px) {
       .music-player-card {
-        bottom: 5rem;
+        bottom: 4.5rem;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(-50%) scale(0.8);
+        transform-origin: bottom center;
         width: 90vw;
-        max-width: 320px;
+        max-width: 300px;
       }
 
       .music-player-card.hidden {
-        transform: translate(-50%, 20px);
+        transform: translate(-50%, 20px) scale(0.8);
       }
     }
