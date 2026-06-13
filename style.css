@@ -842,15 +842,60 @@
 
     @media (max-width: 768px) {
       .music-player-card {
-        bottom: 4.5rem;
+        bottom: 4rem;
         left: 50%;
-        transform: translateX(-50%) scale(0.8);
-        transform-origin: bottom center;
-        width: 90vw;
-        max-width: 300px;
+        transform: translateX(-50%);
+        width: 92vw;
+        max-width: 360px;
+        padding: 10px 15px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-radius: 50px; /* Make it a sleek pill shape */
+      }
+
+      .music-player-card::before {
+        border-radius: 50px;
+      }
+
+      .music-info {
+        gap: 10px;
+      }
+
+      .details {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .details .artist-name {
+        display: none; /* Hide artist name for minimal look */
+      }
+
+      .song-slider {
+        display: none; /* Hide slider on mobile */
+      }
+
+      .controls {
+        margin-top: 0;
+        gap: 10px;
       }
 
       .music-player-card.hidden {
-        transform: translate(-50%, 20px) scale(0.8);
+        transform: translate(-50%, 20px);
+      }
+      
+      .disk {
+        width: 38px;
+        height: 38px;
+      }
+      
+      .controls .play-btn {
+        width: 35px;
+        height: 35px;
+      }
+      
+      .controls .btn {
+        font-size: 0.85rem;
       }
     }
