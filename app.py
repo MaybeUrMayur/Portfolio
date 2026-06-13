@@ -81,13 +81,9 @@ def visit():
         log_line += f" - Message: {message}"
         
     try:
-        # Try to save to GitHub Gist first
-        if update_gist(log_line):
-            pass # Successfully saved to cloud
-        else:
-            # Fallback to local file if gist is not configured or fails
-            with open('visitors.txt', 'a', encoding='utf-8') as f:
-                f.write(log_line + "\n")
+        # Save to GitHub Gist only
+        if not update_gist(log_line):
+            return jsonify({"status": "error", "message": "Failed to save to cloud gist. Please check GIST_ID and GITHUB_PAT configuration."}), 500
             
         return jsonify({"status": "success", "message": f"Thanks, {name}! Your message has been recorded. 👋"})
     except Exception as e:
@@ -106,34 +102,28 @@ def view_logs():
     gist_id = os.environ.get("GIST_ID")
     pat = os.environ.get("GITHUB_PAT")
     
-    # Fetch from Gist if configured
-    if gist_id and pat:
-        headers = {
-            "Authorization": f"token {pat}",
-            "Accept": "application/vnd.github.v3+json"
-        }
-        url = f"https://api.github.com/gists/{gist_id}"
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            gist_data = response.json()
-            files = gist_data.get('files', {})
-            filename = "visitors.txt" if "visitors.txt" in files else (list(files.keys())[0] if files else None)
-            
-            if filename:
-                content = files[filename].get("content", "Empty log.")
-                return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
-            else:
-                return "No files found in Gist.", 200
+    if not gist_id or not pat:
+        return "GIST_ID or GITHUB_PAT not configured.", 500
+    
+    # Fetch from Gist strictly
+    headers = {
+        "Authorization": f"token {pat}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    url = f"https://api.github.com/gists/{gist_id}"
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        gist_data = response.json()
+        files = gist_data.get('files', {})
+        filename = "visitors.txt" if "visitors.txt" in files else (list(files.keys())[0] if files else None)
+        
+        if filename:
+            content = files[filename].get("content", "Empty log.")
+            return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
         else:
-            return f"Error fetching Gist: {response.text}", 500
-            
-    # Fallback to local file
-    try:
-        with open('visitors.txt', 'r', encoding='utf-8') as f:
-            content = f.read()
-        return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
-    except FileNotFoundError:
-        return "No visitors yet (or Gist not configured).", 200
+            return "No files found in Gist.", 200
+    else:
+        return f"Error fetching Gist: {response.text}", 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
