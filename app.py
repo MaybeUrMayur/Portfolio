@@ -112,7 +112,7 @@ def visit():
             print("Failed to save to cloud gist. Please check GIST_ID and GITHUB_PAT configuration.")
             return jsonify({"status": "error", "message": "Failed to save. Please try again later."}), 500
             
-        return jsonify({"status": "success", "message": f"Thanks for stopping by, {name}! I'll read this over and reply soon."})
+        return jsonify({"status": "success", "message": f"Thanks for the message, {name}!"})
     except Exception as e:
         print(f"Error processing visitor: {e}")
         return jsonify({"status": "error", "message": "Failed to save visitor data"}), 500
