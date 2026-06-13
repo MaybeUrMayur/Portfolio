@@ -105,6 +105,7 @@
       
       background: rgba(255, 255, 255, 0.05) !important;
       backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
       border-radius: 120px !important;
@@ -118,6 +119,7 @@
       transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       border: 2px solid rgba(255, 255, 255, 0.2) !important;
       box-shadow: none !important;
     }
@@ -198,6 +200,7 @@
       
       background: rgba(255, 255, 255, 0.05) !important;
       backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
     }
@@ -298,6 +301,7 @@
       
       background: rgba(255, 255, 255, 0.05) !important;
       backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
     }
@@ -457,9 +461,6 @@
 
 
     @media (max-width: 768px) {
-      body {
-        background: #000000 !important;
-      }
       
       /* Mobile Performance Overrides: Removed blur reduction */
       .social-pill-group li {
