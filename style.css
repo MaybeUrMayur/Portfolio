@@ -455,11 +455,6 @@
       scroll-behavior: smooth;
     }
 
-    @media (pointer: coarse), (max-width: 1080px) {
-      #world {
-        display: none !important;
-      }
-    }
 
     @media (max-width: 768px) {
       body {

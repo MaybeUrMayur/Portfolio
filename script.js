@@ -184,8 +184,8 @@
       if (!canvas) return;
       const context = canvas.getContext("2d");
       
-      // Optimize particle count: 80% reduction for mobile (60 particles instead of 300)
-      const NUM_CONFETTI = window.innerWidth < 768 ? 60 : 300;
+      // Particle count consistent across all devices
+      const NUM_CONFETTI = 300;
       const COLORS = [[255, 255, 255]];
       const PI_2 = 2 * Math.PI;
       
@@ -255,8 +255,6 @@
       
       function step() {
         requestAnimationFrame(step);
-        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        if (isTouch || window.innerWidth <= 1080) return;
         context.fillStyle = "#111";
         context.fillRect(0, 0, w, h);
         for (let c of confetti) {
