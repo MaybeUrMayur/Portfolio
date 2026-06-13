@@ -466,7 +466,7 @@
             const data = await response.json();
             
             visitorGreeting.style.opacity = '1';
-            visitorGreeting.textContent = data.message || `Thanks, ${name}! Your message has been sent. 👋`;
+            visitorGreeting.textContent = data.message || `Thanks for stopping by, ${name}! I'll read this over and reply soon.`;
             visitorNameInput.value = '';
             if (visitorMessageInput) visitorMessageInput.value = '';
           } catch (error) {
