@@ -45,7 +45,3 @@ Start the local Flask server:
 python app.py
 ```
 The server should start running at `http://127.0.0.1:5000`. You can open this address in your web browser to view the portfolio.
-
-## Accessing Logs
-To view the visitor logs securely, navigate to the `/logs` endpoint and provide your admin secret key as a URL parameter:
-`http://127.0.0.1:5000/logs?key=your_secure_admin_key`
