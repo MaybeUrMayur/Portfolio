@@ -2,9 +2,29 @@ from flask import Flask, request, jsonify
 import datetime
 import os
 import requests
+import hmac
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 # Configure Flask to serve static files from the current directory
 app = Flask(__name__, static_folder='.', static_url_path='')
+
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024  # 16 KB max for this app
+limiter = Limiter(get_remote_address, app=app, default_limits=["5 per minute"])
+
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; "
+        "style-src 'self' 'unsafe-inline' fonts.googleapis.com cdnjs.cloudflare.com; "
+        "font-src fonts.gstatic.com cdnjs.cloudflare.com; "
+        "img-src 'self' data:;"
+    )
+    return response
 
 @app.route('/')
 def index():
@@ -63,16 +83,22 @@ def update_gist(log_entry):
         return False
 
 @app.route('/api/visit', methods=['POST'])
+@limiter.limit("3 per minute")
 def visit():
     data = request.json
     if not data or 'name' not in data:
         return jsonify({"status": "error", "message": "Name is required"}), 400
         
-    name = data['name'].strip()
-    message = data.get('message', '').strip()
+    name = data['name'].strip().replace('\n', ' ').replace('\r', ' ')
+    message = data.get('message', '').strip().replace('\n', ' ').replace('\r', ' ')
     
     if not name:
         return jsonify({"status": "error", "message": "Name cannot be empty"}), 400
+        
+    if len(name) > 100:
+        return jsonify({"status": "error", "message": "Name is too long"}), 400
+    if len(message) > 500:
+        return jsonify({"status": "error", "message": "Message is too long"}), 400
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
@@ -83,7 +109,8 @@ def visit():
     try:
         # Save to GitHub Gist only
         if not update_gist(log_line):
-            return jsonify({"status": "error", "message": "Failed to save to cloud gist. Please check GIST_ID and GITHUB_PAT configuration."}), 500
+            print("Failed to save to cloud gist. Please check GIST_ID and GITHUB_PAT configuration.")
+            return jsonify({"status": "error", "message": "Failed to save. Please try again later."}), 500
             
         return jsonify({"status": "success", "message": f"Thanks, {name}! Your message has been recorded. 👋"})
     except Exception as e:
@@ -93,10 +120,12 @@ def visit():
 @app.route('/logs')
 def view_logs():
     # Retrieve the secret key from Render environment variables
-    admin_secret = os.environ.get("ADMIN_SECRET_KEY", "please_configure_in_render")
+    admin_secret = os.environ.get("ADMIN_SECRET_KEY")
+    if not admin_secret:
+        return "Admin endpoint not configured.", 503
     
     secret_key = request.args.get('key')
-    if secret_key != admin_secret:
+    if not hmac.compare_digest(secret_key or '', admin_secret):
         return "Unauthorized", 401
         
     gist_id = os.environ.get("GIST_ID")
@@ -126,4 +155,4 @@ def view_logs():
         return f"Error fetching Gist: {response.text}", 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
