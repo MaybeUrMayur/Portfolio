@@ -257,7 +257,7 @@
         requestAnimationFrame(step);
         const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         if (isTouch || window.innerWidth <= 1080) return;
-        context.fillStyle = (isTouch || window.innerWidth <= 1080) ? "#000" : "#111";
+        context.fillStyle = "#111";
         context.fillRect(0, 0, w, h);
         for (let c of confetti) {
           c.draw();
@@ -466,13 +466,13 @@
             const data = await response.json();
             
             visitorGreeting.style.opacity = '1';
-            visitorGreeting.textContent = data.message || `Thanks, ${name}! Your visit has been recorded. 👋`;
+            visitorGreeting.textContent = data.message || `Thanks, ${name}! Your message has been sent. 👋`;
             visitorNameInput.value = '';
             if (visitorMessageInput) visitorMessageInput.value = '';
           } catch (error) {
             console.error("Error saving visitor:", error);
             visitorGreeting.style.opacity = '1';
-            visitorGreeting.textContent = `Oops, something went wrong saving your name!`;
+            visitorGreeting.textContent = `Oops, something went wrong saving your message!`;
           } finally {
             visitorSubmitBtn.textContent = 'Say Hi';
             visitorSubmitBtn.style.pointerEvents = 'auto';

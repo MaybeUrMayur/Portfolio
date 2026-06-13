@@ -281,10 +281,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .social-pill-item.active-text { 
-      background: rgba(255, 255, 255, 0.2) !important;
-      transform: scale(1.1);
-    }
+
 
     /* ---------- MAIN NAVIGATION PILL ---------- */
     .pill-nav {
