@@ -656,3 +656,200 @@
       opacity: 1 !important;
       filter: blur(0px) !important;
     }
+
+    /* ---------- MUSIC PLAYER ---------- */
+    .music-player-card {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      width: 280px;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6) !important;
+      border-radius: 20px;
+      padding: 15px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: sans-serif;
+      overflow: hidden;
+      transition: opacity 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.4s;
+    }
+
+    .music-player-card.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    .music-player-card::before {
+      content: '';
+      position: absolute;
+      top: -30px; left: -30px; right: -30px; bottom: -30px;
+      background-image: url('src/Metro_Boomin_Presents_Spider-Man_Across_the_Spider-Verse.webp');
+      background-size: cover;
+      background-position: center;
+      filter: blur(25px);
+      z-index: -2;
+    }
+
+    .music-player-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(5, 5, 10, 0.5), rgba(15, 15, 20, 0.85));
+      z-index: -1;
+    }
+
+    .music-player-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .music-player-card * {
+      color: #ffffff !important;
+    }
+
+    .music-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .disk {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-image: url('src/Metro_Boomin_Presents_Spider-Man_Across_the_Spider-Verse.webp');
+      background-color: #000;
+      background-size: cover;
+      background-position: center;
+      animation: rotate 4s linear infinite, dynamicDiskGlow 6s linear infinite;
+      animation-play-state: paused;
+    }
+
+    @keyframes dynamicDiskGlow {
+      0% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.6), 0 0 0 2px rgba(255, 0, 128, 0.3); }
+      25% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 0 2px rgba(0, 255, 255, 0.3); }
+      50% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.6), 0 0 0 2px rgba(0, 255, 0, 0.3); }
+      75% { box-shadow: 0 0 10px rgba(128, 0, 255, 0.6), 0 0 0 2px rgba(128, 0, 255, 0.3); }
+      100% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.6), 0 0 0 2px rgba(255, 0, 128, 0.3); }
+    }
+
+    .disk.play {
+      animation-play-state: running;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .music-name {
+      font-size: 0.9rem !important;
+      font-weight: 600;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: inherit;
+    }
+
+    .artist-name {
+      font-size: 0.7rem !important;
+      opacity: 0.7;
+      margin: 0;
+      font-family: inherit;
+    }
+
+    .song-slider {
+      width: 100%;
+    }
+
+    .seek-bar {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .seek-bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 1px;
+      height: 20px;
+      background: #fff;
+      box-shadow: -400px 0 0 400px #ffffff;
+    }
+
+    .time-container {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .controls .btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, text-shadow 0.2s;
+    }
+
+    .controls .btn:hover {
+      transform: scale(1.1);
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    }
+    
+    .controls .btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+      text-shadow: none;
+    }
+
+    .controls .play-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1) !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    @media (max-width: 768px) {
+      .music-player-card {
+        bottom: 5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90vw;
+        max-width: 320px;
+      }
+
+      .music-player-card.hidden {
+        transform: translate(-50%, 20px);
+      }
+    }

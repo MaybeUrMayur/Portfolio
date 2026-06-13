@@ -126,10 +126,13 @@
 
       function handleProfileCompact() {
         const scrollAmount = window.scrollY;
+        const musicPlayerCard = document.querySelector('.music-player-card');
         if (scrollAmount > 50) {
           if (!profileSection.classList.contains("compact")) profileSection.classList.add("compact");
+          if (musicPlayerCard && !musicPlayerCard.classList.contains("hidden")) musicPlayerCard.classList.add("hidden");
         } else {
           if (profileSection.classList.contains("compact")) profileSection.classList.remove("compact");
+          if (musicPlayerCard && musicPlayerCard.classList.contains("hidden")) musicPlayerCard.classList.remove("hidden");
         }
       }
 
@@ -434,5 +437,61 @@
         easing: 'ease-out',
         extraScale: 1.0
       });
+    })();
+
+    // ------------------- MUSIC PLAYER -------------------
+    (function() {
+      const audio = document.getElementById('audio');
+      const playBtn = document.getElementById('play-pause-btn');
+      const disk = document.getElementById('disk');
+      const seekBar = document.getElementById('seek-bar');
+      const currentTimeStr = document.querySelector('.current-time');
+      const songDurationStr = document.querySelector('.song-duration');
+
+      let isPlaying = false;
+
+      if (!audio || !playBtn) return;
+
+      playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          audio.pause();
+          disk.classList.remove('play');
+          playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+          audio.play();
+          disk.classList.add('play');
+          playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        isPlaying = !isPlaying;
+      });
+
+      const formatTime = (time) => {
+        if (isNaN(time)) return "00:00";
+        let min = Math.floor(time / 60);
+        let sec = Math.floor(time % 60);
+        if (min < 10) min = `0${min}`;
+        if (sec < 10) sec = `0${sec}`;
+        return `${min}:${sec}`;
+      };
+
+      audio.addEventListener('loadedmetadata', () => {
+        seekBar.max = audio.duration;
+        songDurationStr.textContent = formatTime(audio.duration);
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        seekBar.value = audio.currentTime;
+        currentTimeStr.textContent = formatTime(audio.currentTime);
+      });
+
+      seekBar.addEventListener('input', () => {
+        audio.currentTime = seekBar.value;
+      });
+      
+      // In case metadata is already loaded
+      if (audio.readyState >= 1) {
+        seekBar.max = audio.duration;
+        songDurationStr.textContent = formatTime(audio.duration);
+      }
     })();
 

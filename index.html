@@ -141,6 +141,39 @@
   </div>
 
 
+  <!-- MUSIC PLAYER -->
+  <div class="music-player-card">
+    <div class="music-info">
+      <div class="disk" id="disk"></div>
+      <div class="details">
+        <h3 class="music-name">Am I Dreaming</h3>
+        <p class="artist-name" style="display: flex; align-items: center; gap: 6px;">
+          Metro Boomin 
+          <span style="opacity: 0.5; font-size: 0.8em;">&bull;</span> 
+          <span style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 10px; font-size: 0.85em; display: flex; align-items: center; gap: 4px;">
+            <i class="fas fa-repeat" style="font-size: 0.8em;"></i> On Loop
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="song-slider">
+        <input type="range" value="0" class="seek-bar" id="seek-bar">
+        <div class="time-container">
+          <span class="current-time">00:00</span>
+          <span class="song-duration">00:00</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn backward-btn" disabled><i class="fas fa-backward"></i></button>
+        <button class="btn play-btn" id="play-pause-btn"><i class="fas fa-play"></i></button>
+        <button class="btn forward-btn" disabled><i class="fas fa-forward"></i></button>
+    </div>
+    
+    <audio src="src/Am I Dreaming.m4a" id="audio" loop preload="metadata"></audio>
+  </div>
+
   <script src="script.js" defer></script>
 </body>
 </html>
