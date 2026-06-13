@@ -1,6 +1,6 @@
 # Mayur Patil | Portfolio
 
-live => [https://mayur-portfolio-phvt.onrender.com]
+live => https://mayur-portfolio-phvt.onrender.com
 
 A personal portfolio website and API built using HTML, CSS, JavaScript, and Flask (Python). This application serves the portfolio statically and utilizes a lightweight Flask backend to handle visitor logs and store them securely in a GitHub Gist.
 
