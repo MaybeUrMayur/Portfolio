@@ -58,6 +58,39 @@
       box-shadow: none !important;
     }
 
+    .mock-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ---------- VISITOR INPUT ---------- */
+    .visitor-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .visitor-input:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .visitor-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
     .profile-section.compact {
       top: 1.2rem;
       left: 1.2rem;

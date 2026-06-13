@@ -435,8 +435,60 @@
         sparkCount: 8,
         duration: 400,
         easing: 'ease-out',
-        extraScale: 1.0
+        extraScale: 1.2
       });
+
+      // Backend Visitor Interaction
+      const visitorNameInput = document.getElementById('visitor-name');
+      const visitorMessageInput = document.getElementById('visitor-message');
+      const visitorSubmitBtn = document.getElementById('visitor-submit');
+      const visitorGreeting = document.getElementById('visitor-greeting');
+
+      if (visitorNameInput && visitorSubmitBtn && visitorGreeting) {
+        const submitVisitor = async () => {
+          const name = visitorNameInput.value.trim();
+          const message = visitorMessageInput ? visitorMessageInput.value.trim() : '';
+          if (!name) return;
+
+          visitorSubmitBtn.textContent = 'Sending...';
+          visitorSubmitBtn.style.pointerEvents = 'none';
+          visitorSubmitBtn.style.opacity = '0.7';
+
+          try {
+            const response = await fetch('/api/visit', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name, message })
+            });
+
+            const data = await response.json();
+            
+            visitorGreeting.style.opacity = '1';
+            visitorGreeting.textContent = data.message || `Thanks, ${name}! Your visit has been recorded. 👋`;
+            visitorNameInput.value = '';
+            if (visitorMessageInput) visitorMessageInput.value = '';
+          } catch (error) {
+            console.error("Error saving visitor:", error);
+            visitorGreeting.style.opacity = '1';
+            visitorGreeting.textContent = `Oops, something went wrong saving your name!`;
+          } finally {
+            visitorSubmitBtn.textContent = 'Say Hi';
+            visitorSubmitBtn.style.pointerEvents = 'auto';
+            visitorSubmitBtn.style.opacity = '1';
+          }
+        };
+
+        visitorSubmitBtn.addEventListener('click', submitVisitor);
+
+        visitorNameInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            submitVisitor();
+          }
+        });
+      }
     })();
 
     // ------------------- MUSIC PLAYER -------------------

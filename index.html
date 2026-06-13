@@ -132,14 +132,21 @@
     <section id="section-connect" class="section-card">
       <h2>Let's Connect</h2>
       <p style="margin-top: 1rem; line-height: 1.5;">I am always open to discussing software engineering opportunities, technical collaborations, or open-source projects. You can review my code on GitHub or contact me directly via email to start a conversation.</p>
-      <div class="connect-buttons" style="margin-top: 1.5rem;">
+      
+      <div class="visitor-form" style="margin-top: 1.5rem; margin-bottom: 0.5rem; display: flex; gap: 10px; max-width: 400px; flex-wrap: wrap;">
+        <input type="text" id="visitor-name" class="visitor-input" placeholder="What's your name?" style="flex: 1; min-width: 150px; max-width: 100%;">
+        <textarea id="visitor-message" class="visitor-input" placeholder="Your message for me" rows="3" style="width: 100%; max-width: 100%; resize: vertical; font-family: inherit;"></textarea>
+        <button id="visitor-submit" class="mock-btn" style="padding: 12px 20px; width: 100%;">Say Hi</button>
+        <p id="visitor-greeting" style="margin-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.8); font-style: italic; min-height: 1.5rem; transition: opacity 0.3s; width: 100%; opacity: 0;"></p>
+      </div>
+
+      <div class="connect-buttons" style="margin-top: 1rem;">
         <a href="https://github.com/MaybeUrMayur" target="_blank" class="mock-btn"><i class="fab fa-github"></i> GitHub</a>
         <a href="https://leetcode.com/u/MaybeUrMayur/" target="_blank" class="mock-btn"><i class="fas fa-code"></i> LeetCode</a>
         <a href="mailto:mspatil.work@outlook.com" class="mock-btn"><i class="fas fa-envelope"></i> Mail</a>
       </div>
     </section>
   </div>
-
 
   <!-- MUSIC PLAYER -->
   <div class="music-player-card">
